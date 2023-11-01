@@ -1,0 +1,165 @@
+* {
+    box-sizing: border-box;
+}
+
+/* body 样式 */
+body {
+    font-family: Arial;
+    margin: 0;
+}
+
+/* 标题 */
+.header {
+    padding: 80px;
+    text-align: center;
+    font-family: "Lucida Sans";
+    background-image: url("./header-image.jpg");
+    color: #202447;
+    text-shadow: 2px 2px 2px white;
+    background-size: cover;
+}
+
+/* 标题字体加大 */
+.header h1 {
+    font-size: 40px;
+}
+
+/* 导航 */
+.navbar {
+    overflow: hidden;
+    background-color: #6c8e8e;
+    display: flex;
+    /* 使用弹性布局 */
+    justify-content: center;
+    /* 在主轴上居中对齐 */
+}
+
+/* 导航栏样式 */
+.navbar a {
+    float: left;
+    display: block;
+    background-color: #6c8e8e;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    margin: 0 10px;
+    /* 添加左右间距 */
+}
+
+/* 右侧链接*/
+.navbar a.right {
+    float: right;
+}
+
+/* 鼠标移动到链接的颜色 */
+/* 组合选择器 */
+.navbar a:hover {
+    background-color: #ffffff;
+    color: #495960;
+}
+
+/* 列容器 */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+/* 创建两个列 */
+/* 边栏 */
+.side {
+    flex: 10%;
+    background-color: #f1ffff;
+    padding: 20px;
+
+}
+
+.menu {
+    position: sticky;
+    top: 20px;
+}
+
+.menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu li {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #6c8e8e;
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+/* 鼠标移到标签上实现变色 */
+/* 组合选择器 */
+.menu li:hover {
+    background-color: #5f8385;
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+}
+
+/* 主要的内容区域 */
+.main {
+    flex: 70%;
+    background-color: white;
+    padding: 40px;
+}
+
+/* 底部 */
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: #ddd;
+}
+
+/* 表格格式 */
+.table {
+    text-align: center;
+    background-color: rgb(238, 236, 236);
+    border-radius: 25px;
+    width: 80%;
+    padding: 20px;
+}
+
+/* 图片格式 */
+/* ID 选择器 */
+#img002 {
+    float: left;
+    padding: 10px;
+    clear: none;
+    margin-top: 20px;
+    margin-right: 30px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    width: 16%;
+    text-align: center;
+}
+
+
+/* 定义申请表两列的格式 */
+.column {
+    float: left;
+    padding: 15px 75px 75px;
+}
+
+/* 响应式布局 - 在屏幕设备宽度尺寸小于 700px 时, 让两栏上下堆叠显示 */
+@media screen and (max-width: 700px) {
+    .row {
+        flex-direction: column;
+    }
+}
+
+/* 响应式布局 - 在屏幕设备宽度尺寸小于 400px 时, 让导航栏目上下堆叠显示 */
+@media screen and (max-width: 400px) {
+    .navbar a {
+        float: none;
+        width: 100%;
+    }
+}
