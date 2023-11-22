@@ -36,10 +36,10 @@
         with stellar brilliance, evoking ethereal melodies in an artistic
         composition.
       </p>
-      <p class="show-word">
-        <!-- 改为后端读取 -->
+      <!-- <p class="show-word">
+        改为后端读取
         <b style="font-size: 1.5em">情感指定：</b> contentment
-      </p>
+      </p> -->
       <p class="show-word">
         <!-- 改为后端读取 -->
         <b style="font-size: 1.5em">选用模型：</b> Mubert

@@ -8,7 +8,7 @@
         <div class="el-upload__text">将图片拖动到此处或<em>点击上传</em></div>
       </el-upload>
     </div>
-    <div class="img-url">
+    <!-- <div class="img-url">
       <span style="width: 150px">或输入图片链接</span>
       <el-input v-model="imgUrl" clearable placeholder="请输入图片链接">
         <template #prepend>
@@ -17,7 +17,7 @@
           </el-select>
         </template>
       </el-input>
-    </div>
+    </div> -->
     <div class="options">
       <div class="select">
         <span class="tips">请选择模式</span>
@@ -27,14 +27,14 @@
           </el-option>
         </el-select>
       </div>
-      <div class="select">
+      <!-- <div class="select">
         <span class="tips">请选择情感</span>
         <el-select v-model="selectedMotion" placeholder="请选择情感">
           <el-option v-for=" i  in  motions " :key="(i.value as number)" :label="(i.motion as string)"
                      :value="(i.value as number)">{{ i.motion }}
           </el-option>
         </el-select>
-      </div>
+      </div> -->
     </div>
     <div class="submit">
       <el-button type="primary" @click="handleClick"> 提交
@@ -61,43 +61,43 @@ function handleClick() {
 }
 
 const fileList = ref<UploadUserFile[]>()
-const imgUrl = ref<String>("")
+// const imgUrl = ref<String>("")
 const selectedMode = ref<Number>(0)
-const selectedMotion = ref<Number>(0)
-const selectedUrlType = ref<String>("https://")
+// const selectedMotion = ref<Number>(0)
+// const selectedUrlType = ref<String>("https://")
 
-const urlTypes = ["http://", "https://"]
-const motions: Array<{
-  value: number,
-  motion: string
-}> = [{
-  value: 0,
-  motion: "高兴"
-},
-  {
-    value: 1,
-    motion: "悲伤"
-  },
-  {
-    value: 2,
-    motion: "愤怒"
-  },
-  {
-    value: 3,
-    motion: "惊讶"
-  },
-  {
-    value: 4,
-    motion: "恐惧"
-  },
-  {
-    value: 5,
-    motion: "厌恶"
-  },
-  {
-    value: 6,
-    motion: "中性"
-  }]
+// const urlTypes = ["http://", "https://"]
+// const motions: Array<{
+//   value: number,
+//   motion: string
+// }> = [{
+//   value: 0,
+//   motion: "高兴"
+// },
+//   {
+//     value: 1,
+//     motion: "悲伤"
+//   },
+//   {
+//     value: 2,
+//     motion: "愤怒"
+//   },
+//   {
+//     value: 3,
+//     motion: "惊讶"
+//   },
+//   {
+//     value: 4,
+//     motion: "恐惧"
+//   },
+//   {
+//     value: 5,
+//     motion: "厌恶"
+//   },
+//   {
+//     value: 6,
+//     motion: "中性"
+//   }]
 const modes: Array<{
   value: Number,
   mode: String
