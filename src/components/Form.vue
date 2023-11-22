@@ -51,13 +51,36 @@ import {Upload, UploadFilled} from '@element-plus/icons-vue';
 import {ElOption, UploadUserFile} from 'element-plus';
 import {ref} from 'vue';
 // import {postFormData} from "../utils/endpoints.ts";
-
+import axios from 'axios';
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps(['modelValue'])
 
-function handleClick() {
+async function handleClick() {
   emit('update:modelValue', true)
   console.log(props.modelValue)
+  // 1. 创建一个对象来存储要发送给后端的数据
+  const requestData = {
+    file: fileList.value && fileList.value.length > 0 ? fileList.value[0].raw : null,
+    mode: selectedMode.value
+    // 可以根据需要添加其他参数
+  };
+
+  try {
+    // 2. 使用 Axios 发送 POST 请求
+    const response = await axios.post('http://your-backend-api-url/upload', requestData);
+
+    // 3. 处理成功的响应
+    console.log('Upload successful:', response.data);
+
+    // 4. 在需要的情况下，更新组件的状态或执行其他逻辑
+    emit('update:modelValue', true);
+  } catch (error) {
+    // 5. 处理错误
+    console.error('Upload error:', error);
+
+    // 在需要的情况下，更新组件的状态或执行其他逻辑
+    emit('update:modelValue', false);
+  }
 }
 
 const fileList = ref<UploadUserFile[]>()
@@ -102,22 +125,24 @@ const modes: Array<{
   value: Number,
   mode: String
 }>
-    = [{
-  value: 0,
-  mode: "测试用"
-},
+    = [
+  // {
+  //   value: 0,
+  //   mode: "测试用"
+  // },
+  // {
+  //   value: 1,
+  //   mode: "Mubert模型"
+  // },
+  // {
+  //   value: 2,
+  //   mode: "Riffusion模型"
+  // },
   {
-    value: 1,
-    mode: "Mubert模型"
-  },
-  {
-    value: 2,
-    mode: "Riffusion模型"
-  },
-  {
-    value: 3,
+    value: 0,
     mode: "MusicGen模型"
-  }]
+  }
+      ]
 
 </script>
 
