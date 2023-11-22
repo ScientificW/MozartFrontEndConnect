@@ -36,6 +36,13 @@
         </el-select>
       </div> -->
     </div>
+    <div class="text">
+      <span class="tips">请输入音频时长</span>
+      <div class="textbox">
+        <input type="text" v-model="textInput" placeholder="输入一个数字，单位为秒">
+      </div>
+      
+    </div>
     <div class="submit">
       <el-button type="primary" @click="handleClick"> 提交
         <el-icon>
@@ -54,38 +61,10 @@ import {ref} from 'vue';
 import axios from 'axios';
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps(['modelValue'])
-
-async function handleClick() {
-  emit('update:modelValue', true)
-  console.log(props.modelValue)
-  // 1. 创建一个对象来存储要发送给后端的数据
-  const requestData = {
-    file: fileList.value && fileList.value.length > 0 ? fileList.value[0].raw : null,
-    mode: selectedMode.value
-    // 可以根据需要添加其他参数
-  };
-
-  try {
-    // 2. 使用 Axios 发送 POST 请求
-    const response = await axios.post('http://your-backend-api-url/upload', requestData);
-
-    // 3. 处理成功的响应
-    console.log('Upload successful:', response.data);
-
-    // 4. 在需要的情况下，更新组件的状态或执行其他逻辑
-    emit('update:modelValue', true);
-  } catch (error) {
-    // 5. 处理错误
-    console.error('Upload error:', error);
-
-    // 在需要的情况下，更新组件的状态或执行其他逻辑
-    emit('update:modelValue', false);
-  }
-}
-
 const fileList = ref<UploadUserFile[]>()
 // const imgUrl = ref<String>("")
 const selectedMode = ref<Number>(0)
+const textInput = ref<String>("")
 // const selectedMotion = ref<Number>(0)
 // const selectedUrlType = ref<String>("https://")
 
@@ -126,10 +105,10 @@ const modes: Array<{
   mode: String
 }>
     = [
-  // {
-  //   value: 0,
-  //   mode: "测试用"
-  // },
+  {
+    value: 0,
+    mode: "测试用"
+  },
   // {
   //   value: 1,
   //   mode: "Mubert模型"
@@ -139,10 +118,38 @@ const modes: Array<{
   //   mode: "Riffusion模型"
   // },
   {
-    value: 0,
+    value: 1,
     mode: "MusicGen模型"
   }
       ]
+      async function handleClick() {
+  emit('update:modelValue', true)
+  console.log(props.modelValue)
+  // 1. 创建一个对象来存储要发送给后端的数据
+  const requestData = {
+    file: fileList.value && fileList.value.length > 0 ? fileList.value[0].raw : null,
+    mode: selectedMode.value,
+    time: textInput.value
+    // 可以根据需要添加其他参数
+  };
+
+  try {
+    // 2. 使用 Axios 发送 POST 请求
+    const response = await axios.post('http://10.129.193.122:3000//upload', requestData);
+
+    // 3. 处理成功的响应
+    console.log('Upload successful:', response.data);
+
+    // 4. 在需要的情况下，更新组件的状态或执行其他逻辑
+    emit('update:modelValue', true);
+  } catch (error) {
+    // 5. 处理错误
+    console.error('Upload error:', error);
+
+    // 在需要的情况下，更新组件的状态或执行其他逻辑
+    emit('update:modelValue', false);
+  }
+}
 
 </script>
 
@@ -200,5 +207,23 @@ const modes: Array<{
 .tips {
   width: 100%;
   text-align: start;
+}
+
+.text {
+  width: 100%;
+  height: 20%;
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+}
+
+.textbox{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 </style>

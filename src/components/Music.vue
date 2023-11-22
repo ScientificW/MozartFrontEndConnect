@@ -30,27 +30,18 @@
     </div>
     <div style="flex: 6">
       <p class="show-word">
-        <b style="font-size: 1.5em">文字描述：</b><br/>
-        <!-- 改为后端读取 -->
-        Luminous boy cradles celestial artifact, a digital tableau adorned
-        with stellar brilliance, evoking ethereal melodies in an artistic
-        composition.
-      </p>
-      <!-- <p class="show-word">
-        改为后端读取
-        <b style="font-size: 1.5em">情感指定：</b> contentment
-      </p> -->
-      <p class="show-word">
-        <!-- 改为后端读取 -->
-        <b style="font-size: 1.5em">选用模型：</b> Mubert
-      </p>
-      <p class="show-word">
-        <b style="font-size: 1.5em">生成音频：</b>
-        <audio controls>
-          <!-- 改为后端读取 -->
-          <source src="/audio.mp3" type="audio/mpeg"/>
-        </audio>
-      </p>
+      <b style="font-size: 1.5em">文字描述：</b><br/>
+      {{ prompt }}
+    </p>
+    <p class="show-word">
+      <b style="font-size: 1.5em">选用模型：</b> MusicGen
+    </p>
+    <p class="show-word">
+      <b style="font-size: 1.5em">生成音频：</b>
+      <audio controls>
+        <source :src="audioFile" type="audio/mpeg"/>
+      </audio>
+    </p>
     </div>
   </div>
   <div class="return-button">
@@ -63,11 +54,30 @@
 
 <script lang="ts" setup>
 import { CloseBold } from '@element-plus/icons-vue';
-
+import axios from 'axios';
 defineEmits(['update:modelValue'])
 defineProps({
   modelValue: Boolean
 })
+async function fetchDataFromBackend() {
+  try {
+    const response = await axios.get('http://10.129.193.122:3000/music/{result_file}');
+    // 处理成功的响应
+    const audioFile = response.data.audioFile; // 替换成后端返回的音频文件字段名
+    const prompt = response.data.prompt; // 替换成后端返回的提示词字段名
+    
+    // 更新页面中的音频文件和提示词
+    // ...
+  } catch (error) {
+    // 处理错误
+    console.error('Error fetching data from backend:', error);
+  }
+}
+
+// 调用 fetchDataFromBackend 函数，例如在页面加载时
+onMounted(() => {
+  fetchDataFromBackend();
+});
 </script>
 
 <style scoped>
