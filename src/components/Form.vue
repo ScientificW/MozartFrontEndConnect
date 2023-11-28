@@ -239,6 +239,7 @@ const handleClick = async () => {
       // 把数据扔进vuex
       store.commit('setPrompt', prompt.value);
       store.commit('setMusic', music.value);
+      // 把Exhibition中isSubmitted改成true,实现正常返回后组件变换为Music
       emit('update:modelValue', true) 
     }
    
