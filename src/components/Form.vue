@@ -192,6 +192,7 @@ const handleFileChange = (event) => {
 
 
 const handleClick = async () => {
+  // 一个判断，表格需要填完整才能上传，否则弹窗提醒
   if (selectedMode.value === null || textInput.value === '' || fileList.value.length === 0) {
     window.alert('请完成所有项目');
     console.log(selectedMode.value);
@@ -201,16 +202,17 @@ const handleClick = async () => {
   return;
 }
 
-
+// 将表单数据整合进formData
   const formData = new FormData();
   formData.append('file', fileList.value[0]);
   formData.append('mode', selectedMode.value);
   formData.append('time', textInput.value);
-
+// 进行通信
   try {
     for (const pair of formData.entries()) {
           console.log(pair[0], pair[1]);  
         }
+        // 下面是服务器地址和API接口
     const response = await fetch('http://10.129.193.122:3000/upload', {
       method: 'POST',
       body: formData,
@@ -220,7 +222,7 @@ const handleClick = async () => {
     if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-
+        // 获取返回的数据
         const responseData = await response.json();
 
         // 处理服务器返回的数据
@@ -234,6 +236,7 @@ const handleClick = async () => {
         // 在这里可以根据需要进行其他操作
         
     if (response.ok) {
+      // 把数据扔进vuex
       store.commit('setPrompt', prompt.value);
       store.commit('setMusic', music.value);
       emit('update:modelValue', true) 

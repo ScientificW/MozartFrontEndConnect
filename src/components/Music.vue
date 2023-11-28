@@ -36,12 +36,14 @@
     <p class="show-word">
       <b style="font-size: 1.5em">选用模型：</b> MusicGen
     </p>
+    <!-- 这是播放器 -->
     <!-- <p class="show-word">
       <b style="font-size: 1.5em">生成音频：</b>
       <audio controls>
         <source :src="MusicGened" type="audio/mpeg"/>
       </audio>
     </p> -->
+    <!-- 这是下载 -->
     <p class="show-word">
       <b style="font-size: 1.5em">生成音频：</b>
       <a :href="MusicGened" download="generated_audio.mp3">
@@ -67,11 +69,13 @@ defineEmits(['update:modelValue'])
 defineProps({
   modelValue: Boolean
 })
+// 获取vuex中存储的数据
 const store = useStore();
 const prompt = store.state.prompt;
 const music = store.state.music;
 console.log('Prompt1:', prompt);
 console.log('Music1:', music);
+// 进行拼接，得到API返回音频的地址
 const musicLocation = `http://10.129.193.122:3000/music/${music}`;
 // try{
 //   const musicGened = await fetch(musicLocation)
