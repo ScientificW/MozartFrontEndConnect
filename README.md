@@ -27,3 +27,8 @@ npm install -g pnpm
 ```
 pnpm run dev
 ```
+使用了vuex进行组件之间的通信
+安装vuex
+```
+npm install vuex@next --save
+```
