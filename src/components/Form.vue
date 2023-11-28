@@ -1,12 +1,16 @@
 <template>
   <div class="form">
     <div class="upload-img">
-      <el-upload v-model="fileList" :auto-upload=false accept="image" action="#" drag :limit=1>
+      <span class="tips">请选择图片</span>
+    <div></div>
+      <!-- <el-upload v-model="fileList" :auto-upload=false accept="image" action="#" drag :limit=1 @change="handleFileChange">
         <el-icon class="el-icon--upload">
           <upload-filled/>
         </el-icon>
         <div class="el-upload__text">将图片拖动到此处或<em>点击上传</em></div>
-      </el-upload>
+      </el-upload> -->
+      <input type="file" id="file" multiple @change="handleFileChange">
+
     </div>
     <!-- <div class="img-url">
       <span style="width: 150px">或输入图片链接</span>
@@ -21,11 +25,11 @@
     <div class="options">
       <div class="select">
         <span class="tips">请选择模式</span>
-        <el-select v-model="selectedMode" placeholder="请选择模式">
-          <el-option v-for=" item  in  modes " :key="(item.value as number)" :label="(item.mode as string)"
+          <el-select v-model="selectedMode" placeholder="请选择模式">
+            <el-option v-for=" item  in  modes " :key="(item.value as number)" :label="(item.mode as string)"
                      :value="(item.value as number)">{{ item.mode }}
-          </el-option>
-        </el-select>
+            </el-option>        
+          </el-select>
       </div>
       <!-- <div class="select">
         <span class="tips">请选择情感</span>
@@ -52,105 +56,196 @@
     </div>
   </div>
 </template>
-
+<!-- 
 <script lang="ts" setup>
 import {Upload, UploadFilled} from '@element-plus/icons-vue';
 import {ElOption, UploadUserFile} from 'element-plus';
 import {ref} from 'vue';
 // import {postFormData} from "../utils/endpoints.ts";
-import axios from 'axios';
-const emit = defineEmits(['update:modelValue'])
-const props = defineProps(['modelValue'])
-const fileList = ref<UploadUserFile[]>()
-// const imgUrl = ref<String>("")
-const selectedMode = ref<Number>(0)
-const textInput = ref<String>("")
-// const selectedMotion = ref<Number>(0)
-// const selectedUrlType = ref<String>("https://")
+const handleClick = async () => {
+      try {
+        console.log(fileList.length)
+        // 构建要发送的数据对象
+        const formData = new FormData();
+        // 将 textInput 添加到 FormData
+        formData.append('time', parseInt(textInput.value));
 
-// const urlTypes = ["http://", "https://"]
-// const motions: Array<{
-//   value: number,
-//   motion: string
-// }> = [{
-//   value: 0,
-//   motion: "高兴"
-// },
-//   {
-//     value: 1,
-//     motion: "悲伤"
-//   },
-//   {
-//     value: 2,
-//     motion: "愤怒"
-//   },
-//   {
-//     value: 3,
-//     motion: "惊讶"
-//   },
-//   {
-//     value: 4,
-//     motion: "恐惧"
-//   },
-//   {
-//     value: 5,
-//     motion: "厌恶"
-//   },
-//   {
-//     value: 6,
-//     motion: "中性"
-//   }]
+        // 处理 fileList，假设是一个数组
+        formData.append('file', fileList[0])
+
+        // 将 selectedMode 添加到 FormData
+        formData.append('mode', parseInt(selectedMode.value));
+
+        for (const pair of formData.entries()) {
+          console.log(pair[0], pair[1]);  
+        }
+        const response = await fetch('http://10.129.193.122:3000/upload', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'multipart/form-data; boundary=${formData.boundary}',
+          },
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const responseData = await response.json();
+
+        // 处理服务器返回的数据
+        console.log(responseData);
+
+        // 在这里可以根据需要进行其他操作
+      } catch (error) {
+        console.error('Error during POST request:', error);
+        // 处理错误
+      }
+    };
+const textInput = ref<String>("")
+const fileList = ref<UploadUserFile[]>()
+const selectedMode = ref<Number>(0)
+
 const modes: Array<{
   value: Number,
   mode: String
 }>
-    = [
-  {
-    value: 0,
-    mode: "测试用"
+    = [{
+  value: 0,
+  mode: "测试用"
   },
-  // {
-  //   value: 1,
-  //   mode: "Mubert模型"
-  // },
-  // {
-  //   value: 2,
-  //   mode: "Riffusion模型"
-  // },
+//   {
+//     value: 1,
+//     mode: "Mubert模型"
+//   },
+//   {
+//     value: 2,
+//     mode: "Riffusion模型"
+//   },
   {
     value: 1,
     mode: "MusicGen模型"
+  }]
+// 放入一个form data
+const imgInfo = new FormData();
+
+// 将 textInput 添加到 FormData
+imgInfo.append('time', textInput.value);
+
+// 处理 fileList，假设是一个数组
+imgInfo.append('file', fileList[0])
+
+// 将 selectedMode 添加到 FormData
+imgInfo.append('mode', selectedMode.value);
+
+// 与后端进行通信
+async function backEnd() {
+  try{
+    const response = await fetch('http://10.129.193.122:3000/upload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: imgInfo
+    });
+    return await response.json();
   }
-      ]
-      async function handleClick() {
-  emit('update:modelValue', true)
-  console.log(props.modelValue)
-  // 1. 创建一个对象来存储要发送给后端的数据
-  const requestData = {
-    file: fileList.value && fileList.value.length > 0 ? fileList.value[0].raw : null,
-    mode: selectedMode.value,
-    time: textInput.value
-    // 可以根据需要添加其他参数
-  };
-
-  try {
-    // 2. 使用 Axios 发送 POST 请求
-    const response = await axios.post('http://10.129.193.122:3000//upload', requestData);
-
-    // 3. 处理成功的响应
-    console.log('Upload successful:', response.data);
-
-    // 4. 在需要的情况下，更新组件的状态或执行其他逻辑
-    emit('update:modelValue', true);
-  } catch (error) {
-    // 5. 处理错误
-    console.error('Upload error:', error);
-
-    // 在需要的情况下，更新组件的状态或执行其他逻辑
-    emit('update:modelValue', false);
+  catch (error) {
+    return { error: error.message || 'Unknown error' };
   }
 }
+</script> -->
+<script lang="ts" setup>
+import {Upload, UploadFilled} from '@element-plus/icons-vue';
+import { useStore } from 'vuex';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
+// import {ElOption, UploadUserFile} from 'element-plus';
+import {ref} from 'vue';
+// import {postFormData} from "../utils/endpoints.ts";
+const store = useStore();
+const fileList = ref([]);
+const selectedMode = ref<Number>()
+const textInput = ref('');
+const emit = defineEmits(['update:modelValue'])
+const props = defineProps(['modelValue'])
+const responseInfo = ref('');
+
+const modes: Array<{
+  value: Number,
+  mode: String
+}>
+    = [{
+    value: 0,
+    mode: "测试用"
+  },
+  {
+    value: 1,
+    mode: "MusicGen模型"
+  }]
+// const modes = [
+//   { value: 0, mode: '测试用' },
+//   { value: 1, mode: 'MusicGen模型' }
+// ];
+
+const handleFileChange = (event) => {
+  fileList.value = [event.target.files[0]];
+};
+
+
+const handleClick = async () => {
+  if (selectedMode.value === null || textInput.value === '' || fileList.value.length === 0) {
+    window.alert('请完成所有项目');
+    console.log(selectedMode.value);
+  console.log(textInput.value);
+  console.log(fileList.value);
+
+  return;
+}
+
+
+  const formData = new FormData();
+  formData.append('file', fileList.value[0]);
+  formData.append('mode', selectedMode.value);
+  formData.append('time', textInput.value);
+
+  try {
+    for (const pair of formData.entries()) {
+          console.log(pair[0], pair[1]);  
+        }
+    const response = await fetch('http://10.129.193.122:3000/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    
+    if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const responseData = await response.json();
+
+        // 处理服务器返回的数据
+        console.log(responseData);
+        const prompt = ref('');
+        const music = ref('');
+        
+        prompt.value = responseData.prompt;
+        music.value = responseData.result_file;
+
+        // 在这里可以根据需要进行其他操作
+        
+    if (response.ok) {
+      store.commit('setPrompt', prompt.value);
+      store.commit('setMusic', music.value);
+      emit('update:modelValue', true) 
+    }
+   
+      } catch (error) {
+        console.error('Error during POST request:', error);
+        ElMessage.error('An error occurred while submitting the form.');
+
+      }
+      
+    };
 </script>
 
 <style scoped>

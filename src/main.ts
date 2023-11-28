@@ -5,7 +5,7 @@ import App from "./App.vue";
 import Intro from "./routes/Intro.vue";
 import Team from "./routes/Team.vue";
 import Exhibition from "./routes/Exhibition.vue";
-
+import store from './store';
 const routes = [
   { path: "/", component: Intro },
   { path: "/team", component: Team },
@@ -19,5 +19,5 @@ const router = createRouter({
 
 const app = createApp(App);
 app.use(router);
-
+app.use(store);
 app.mount("#app");

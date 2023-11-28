@@ -14,9 +14,9 @@
             justify-content: center;
           "
     >
-      <img
+      <!-- <img
           alt="音频封面"
-          src="/audio_image.png"
+          src={{ imageFile }}
           style="
               border-radius: 0.6125em;
               box-shadow: 0 2px 4px 0 rgba(34, 36, 38, 0.12),
@@ -25,7 +25,7 @@
               max-width: 90%;
               object-fit: contain;
             "
-      />
+      /> -->
       <br/>
     </div>
     <div style="flex: 6">
@@ -39,7 +39,7 @@
     <p class="show-word">
       <b style="font-size: 1.5em">生成音频：</b>
       <audio controls>
-        <source :src="audioFile" type="audio/mpeg"/>
+        <source :src="MusicGened" type="audio/mpeg"/>
       </audio>
     </p>
     </div>
@@ -52,32 +52,33 @@
   </div>
 </template>
 
+
 <script lang="ts" setup>
 import { CloseBold } from '@element-plus/icons-vue';
-import axios from 'axios';
+import {inject, ref} from 'vue';
+import { useStore } from 'vuex';
 defineEmits(['update:modelValue'])
 defineProps({
   modelValue: Boolean
 })
-async function fetchDataFromBackend() {
-  try {
-    const response = await axios.get('http://10.129.193.122:3000/music/{result_file}');
-    // 处理成功的响应
-    const audioFile = response.data.audioFile; // 替换成后端返回的音频文件字段名
-    const prompt = response.data.prompt; // 替换成后端返回的提示词字段名
-    
-    // 更新页面中的音频文件和提示词
-    // ...
-  } catch (error) {
-    // 处理错误
-    console.error('Error fetching data from backend:', error);
-  }
-}
+const store = useStore();
+const prompt = store.state.prompt;
+const music = store.state.music;
+console.log('Prompt1:', prompt);
+console.log('Music1:', music);
+const musicLocation = `http://10.129.193.122:3000/music/${music}`;
+try{
+  const musicGened = await fetch(musicLocation)
+  if (response.ok) {
+          // 如果响应成功，设置getMusic变量为音频URL
+          console.log('OK');
+        } else {
+          console.error("Failed to fetch music");
+        }
+      } catch (error) {
+        console.error("Error fetching music:", error);
+      }
 
-// 调用 fetchDataFromBackend 函数，例如在页面加载时
-onMounted(() => {
-  fetchDataFromBackend();
-});
 </script>
 
 <style scoped>
