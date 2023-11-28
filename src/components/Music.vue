@@ -36,11 +36,17 @@
     <p class="show-word">
       <b style="font-size: 1.5em">选用模型：</b> MusicGen
     </p>
-    <p class="show-word">
+    <!-- <p class="show-word">
       <b style="font-size: 1.5em">生成音频：</b>
       <audio controls>
         <source :src="MusicGened" type="audio/mpeg"/>
       </audio>
+    </p> -->
+    <p class="show-word">
+      <b style="font-size: 1.5em">生成音频：</b>
+      <a :href="MusicGened" download="generated_audio.mp3">
+        下载音频
+      </a>
     </p>
     </div>
   </div>
@@ -67,17 +73,38 @@ const music = store.state.music;
 console.log('Prompt1:', prompt);
 console.log('Music1:', music);
 const musicLocation = `http://10.129.193.122:3000/music/${music}`;
-try{
-  const musicGened = await fetch(musicLocation)
-  if (response.ok) {
-          // 如果响应成功，设置getMusic变量为音频URL
-          console.log('OK');
-        } else {
-          console.error("Failed to fetch music");
-        }
-      } catch (error) {
-        console.error("Error fetching music:", error);
-      }
+// try{
+//   const musicGened = await fetch(musicLocation)
+//   if (response.ok) {
+//           // 如果响应成功，设置getMusic变量为音频URL
+//           console.log('OK');
+//         } else {
+//           console.error("Failed to fetch music");
+//         }
+//       } catch (error) {
+//         console.error("Error fetching music:", error);
+//       }
+const MusicGened = ref(""); // 响应式变量用于存储音频文件的URL
+
+(async () => {
+  try {
+    // 假设你有一个变量 music 包含音频文件名
+    const musicLocation = `http://10.129.193.122:3000/music/${music}`;
+
+    // 发起 fetch 请求
+    const response = await fetch(musicLocation);
+
+    if (response.ok) {
+      // 如果响应成功，设置MusicGened变量为音频URL
+      MusicGened.value = URL.createObjectURL(await response.blob());
+      console.log(MusicGened);
+    } else {
+      console.error("Failed to fetch music");
+    }
+  } catch (error) {
+    console.error("Error fetching music:", error);
+  }
+})();
 
 </script>
 
