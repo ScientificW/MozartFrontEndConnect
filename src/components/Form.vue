@@ -217,7 +217,6 @@ const handleClick = async () => {
       body: formData,
     });
 
-    window.alert("正在生成，请稍等")
     if (!response.ok) {
           window.alert("请求失败，请稍后再试")
           throw new Error('Network response was not ok');
