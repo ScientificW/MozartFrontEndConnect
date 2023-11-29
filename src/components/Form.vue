@@ -201,7 +201,7 @@ const handleClick = async () => {
 
   return;
 }
-
+  window.alert("正在生成，请稍等")
 // 将表单数据整合进formData
   const formData = new FormData();
   formData.append('file', fileList.value[0]);
@@ -220,6 +220,7 @@ const handleClick = async () => {
 
     
     if (!response.ok) {
+          window.alert("请求失败，请稍后再试")
           throw new Error('Network response was not ok');
         }
         // 获取返回的数据
