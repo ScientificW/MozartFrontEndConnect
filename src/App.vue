@@ -2,7 +2,7 @@
   <div class="header">
     <h1>点彩成乐</h1>
     <h3>
-      基于 CLIP & MuBert 的图像配乐工具<br />
+      基于 CLIP & MusicGen模型 的图像配乐工具<br />
       生活里的所有人，都是音乐家。
     </h3>
   </div>
