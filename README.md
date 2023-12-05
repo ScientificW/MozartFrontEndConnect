@@ -6,6 +6,10 @@ pnpm安装方式为
 ```
 npm install -g pnpm
 ```
+第一次启动需要运行
+```
+pnpm install
+```
 启动方式为
 ```
 pnpm run dev
