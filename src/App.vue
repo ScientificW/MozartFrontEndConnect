@@ -8,8 +8,8 @@
   </div>
 
   <div class="navbar">
-    <router-link to="/">项目简介</router-link>
-    <router-link to="/exhibition">项目展示</router-link>
+    <router-link to="/Intro">项目简介</router-link>
+    <router-link to="/">项目展示</router-link>
     <router-link to="/team">成员简介</router-link>
   </div>
 

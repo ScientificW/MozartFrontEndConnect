@@ -7,9 +7,9 @@ import Team from "./routes/Team.vue";
 import Exhibition from "./routes/Exhibition.vue";
 import store from './store';
 const routes = [
-  { path: "/", component: Intro },
+  { path: "/", component: Exhibition },
   { path: "/team", component: Team },
-  { path: "/exhibition", component: Exhibition },
+  { path: "/Intro", component: Intro },
 ];
 
 const router = createRouter({
