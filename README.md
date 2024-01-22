@@ -6,6 +6,11 @@ pnpm安装方式为
 ```
 npm install -g pnpm
 ```
+使用了vuex进行组件之间的通信
+安装vuex
+```
+npm install vuex@next --save
+```
 第一次启动需要运行
 ```
 pnpm install
@@ -18,11 +23,7 @@ pnpm run dev
 ```
 pnpm run dev --host
 ```
-使用了vuex进行组件之间的通信
-安装vuex
-```
-npm install vuex@next --save
-```
+
 
 
 This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
