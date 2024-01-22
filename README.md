@@ -14,6 +14,10 @@ pnpm install
 ```
 pnpm run dev
 ```
+若要在内网上访问前端，请加入--host指令，如下
+```
+pnpm run dev --host
+```
 使用了vuex进行组件之间的通信
 安装vuex
 ```
