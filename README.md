@@ -1,19 +1,12 @@
 # Vue 3 + TypeScript + Vite
 
 ## 启动前端需要安装npm和pnpm
-node.js安装方法自行查找。
-pnpm安装方式为
+pnpm安装node.js
 ```
 npm install -g pnpm
 ```
-使用了vuex进行组件之间的通信
-安装vuex
-```
-npm install vuex@next --save
-```
-第一次启动需要运行
-```
-pnpm install
+安装依赖
+pnpm i
 ```
 启动方式为
 ```
