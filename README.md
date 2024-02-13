@@ -6,6 +6,7 @@ pnpm安装node.js
 npm install -g pnpm
 ```
 安装依赖
+```
 pnpm i
 ```
 启动方式为
