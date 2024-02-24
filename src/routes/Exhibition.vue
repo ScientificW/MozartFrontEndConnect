@@ -23,12 +23,13 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
-import Form from '../components/Form.vue';
-import Music from "../components/Music.vue";
-import {ref} from "vue";
 
-const isSubmitted = ref(false)
+<script lang="ts" setup>
+  import Form from '../components/Form.vue';
+  import Music from "../components/Music.vue";
+  import {ref} from "vue";
+
+  const isSubmitted = ref(false)
 </script>
 
 <style scoped>

@@ -47,13 +47,29 @@
       </div>
       
     </div>
-    <div class="submit">
+
+    <!-- <div class="submit">
       <el-button type="primary" @click="handleClick"> 提交
         <el-icon>
           <Upload/>
         </el-icon>
       </el-button>
+    </div> -->
+
+    <div class="submit">
+      <!-- 使用一个 div 包裹提交按钮和加载动画 -->
+      <div>
+        <!-- 提交按钮 -->
+        <el-button type="primary" @click="handleClick" :disabled="isLoading"> 
+          <span v-if="!isLoading">提交</span>
+          <span v-else>提交中...<img v-if="isLoading" src="./Ripple-1s-200px(1).svg"/></span>
+          <el-icon v-if="!isLoading">
+            <Upload/>
+          </el-icon>
+        </el-button>
+      </div>
     </div>
+
   </div>
 </template>
 <!-- 
@@ -154,9 +170,13 @@ async function backEnd() {
 }
 </script> -->
 <script lang="ts" setup>
-import {Upload, UploadFilled} from '@element-plus/icons-vue';
+import {Upload, UploadFilled, Watch} from '@element-plus/icons-vue';
 import { useStore } from 'vuex';
 import { ElMessage, ElMessageBox } from 'element-plus';
+
+//Loading动画的css样式
+import 'animate.css';
+
 
 // import {ElOption, UploadUserFile} from 'element-plus';
 import {ref} from 'vue';
@@ -168,6 +188,8 @@ const textInput = ref('');
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps(['modelValue'])
 const responseInfo = ref('');
+//决定Loading动画是否展示
+const isLoading = ref(false);
 
 const modes: Array<{
   value: Number,
@@ -191,16 +213,20 @@ const handleFileChange = (event) => {
 };
 
 
+
 const handleClick = async () => {
   // 一个判断，表格需要填完整才能上传，否则弹窗提醒
   if (selectedMode.value === null || textInput.value === '' || fileList.value.length === 0) {
-    window.alert('请完成所有项目');
+    window.alert('请完整填写需求');
     console.log(selectedMode.value);
-  console.log(textInput.value);
-  console.log(fileList.value);
+    console.log(textInput.value);
+    console.log(fileList.value);
 
   return;
-}
+  }
+  
+  isLoading.value = true;
+
 // 将表单数据整合进formData
   const formData = new FormData();
   formData.append('file', fileList.value[0]);
@@ -242,86 +268,88 @@ const handleClick = async () => {
       emit('update:modelValue', true) 
     }
    
-      } catch (error) {
-        console.error('Error during POST request:', error);
-        ElMessage.error('An error occurred while submitting the form.');
+    } catch (error) {
+      console.error('Error during POST request:', error);
+      ElMessage.error('An error occurred while submitting the form.');
+    }finally {
+    // 无论成功还是失败，最终都将 loading 状态设置为 false，隐藏 loading 动画
+    isLoading.value = false;
+    }
 
-      }
-      
-    };
+};
 </script>
 
 <style scoped>
-.form {
-  width: 100%;
-  height: 100%;
-  padding: 0 10%;
+  .form {
+    width: 100%;
+    height: 100%;
+    padding: 0 10%;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-.upload-img {
-  height: fit-content;
-  width: 100%;
-  padding: 10px;
-}
+  .upload-img {
+    height: fit-content;
+    width: 100%;
+    padding: 10px;
+  }
 
-.options {
-  width: 100%;
-  height: 30%;
-  padding: 10px;
+  .options {
+    width: 100%;
+    height: 30%;
+    padding: 10px;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 
-.img-url {
-  height: 20%;
-  width: 100%;
-  padding: 10px;
+  .img-url {
+    height: 20%;
+    width: 100%;
+    padding: 10px;
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-.select {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
+  .select {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
 
-.submit {
-  width: 100%;
-  height: 20%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .submit {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.tips {
-  width: 100%;
-  text-align: start;
-}
+  .tips {
+    width: 100%;
+    text-align: start;
+  }
 
-.text {
-  width: 100%;
-  height: 20%;
-  padding: 10px;
+  .text {
+    width: 100%;
+    height: 20%;
+    padding: 10px;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  
-}
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+  }
 
-.textbox{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
+  .textbox{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 </style>
