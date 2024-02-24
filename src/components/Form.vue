@@ -62,7 +62,7 @@
         <!-- 提交按钮 -->
         <el-button type="primary" @click="handleClick" :disabled="isLoading"> 
           <span v-if="!isLoading">提交</span>
-          <span v-else>提交中...<img v-if="isLoading" src="./Ripple-1s-200px(1).svg"/></span>
+          <span v-else>提交中...<img v-if="isLoading" src="./Ripple-1s-200px.svg"/></span>
           <el-icon v-if="!isLoading">
             <Upload/>
           </el-icon>
