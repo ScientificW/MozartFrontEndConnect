@@ -60,9 +60,9 @@
       <!-- 使用一个 div 包裹提交按钮和加载动画 -->
       <div>
         <!-- 提交按钮 -->
-        <el-button type="primary" @click="handleClick" :disabled="isLoading"> 
+        <el-button  type="primary" @click="handleClick" :disabled="isLoading"> 
           <span v-if="!isLoading">提交</span>
-          <span v-else>提交中...<img v-if="isLoading" src="./Ripple-1s-200px.svg"/></span>
+          <span v-else>处理中...</span><img v-if="isLoading" class = 'loading' src="/public/Loading.svg"/>
           <el-icon v-if="!isLoading">
             <Upload/>
           </el-icon>
@@ -271,10 +271,11 @@ const handleClick = async () => {
     } catch (error) {
       console.error('Error during POST request:', error);
       ElMessage.error('An error occurred while submitting the form.');
-    }finally {
-    // 无论成功还是失败，最终都将 loading 状态设置为 false，隐藏 loading 动画
-    isLoading.value = false;
     }
+    // finally {
+    // // 无论成功还是失败，最终都将 loading 状态设置为 false，隐藏 loading 动画
+    // isLoading.value = false;
+    // }
 
 };
 </script>
@@ -323,7 +324,7 @@ const handleClick = async () => {
   }
 
   .submit {
-    width: 100%;
+    width: 10%;
     height: 20%;
     display: flex;
     align-items: center;
@@ -351,5 +352,10 @@ const handleClick = async () => {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: flex-start;
-}
+  }
+  
+  .loading{
+    width: 43%;
+    height: 43%;
+  }
 </style>
