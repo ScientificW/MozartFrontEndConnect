@@ -76,7 +76,7 @@ const music = store.state.music;
 console.log('Prompt1:', prompt);
 console.log('Music1:', music);
 // 进行拼接，得到API返回音频的地址
-const musicLocation = `http://10.129.193.122:3000/music/${music}`;
+const musicLocation = `http://localhost:3000/music/${music}`;
 // try{
 //   const musicGened = await fetch(musicLocation)
 //   if (response.ok) {
@@ -93,7 +93,7 @@ const MusicGened = ref(""); // 响应式变量用于存储音频文件的URL
 (async () => {
   try {
     // 假设你有一个变量 music 包含音频文件名
-    const musicLocation = `http://10.129.193.122:3000/music/${music}`;
+    const musicLocation = `http://localhost:3000/music/${music}`;
 
     // 发起 fetch 请求
     const response = await fetch(musicLocation);

@@ -62,7 +62,9 @@
         <!-- 提交按钮 -->
         <el-button  type="primary" @click="handleClick" :disabled="isLoading"> 
           <span v-if="!isLoading">提交</span>
-          <span v-else>处理中...</span><img v-if="isLoading" class = 'loading' src="/public/Loading.svg"/>
+          <span v-else>处理中…</span> 
+          <img v-if="isLoading" class = 'loading' src="/public/Loading.svg"/>
+          <span v-if="isLoading"> 。 </span>  
           <el-icon v-if="!isLoading">
             <Upload/>
           </el-icon>
@@ -72,103 +74,7 @@
 
   </div>
 </template>
-<!-- 
-<script lang="ts" setup>
-import {Upload, UploadFilled} from '@element-plus/icons-vue';
-import {ElOption, UploadUserFile} from 'element-plus';
-import {ref} from 'vue';
-// import {postFormData} from "../utils/endpoints.ts";
-const handleClick = async () => {
-      try {
-        console.log(fileList.length)
-        // 构建要发送的数据对象
-        const formData = new FormData();
-        // 将 textInput 添加到 FormData
-        formData.append('time', parseInt(textInput.value));
 
-        // 处理 fileList，假设是一个数组
-        formData.append('file', fileList[0])
-
-        // 将 selectedMode 添加到 FormData
-        formData.append('mode', parseInt(selectedMode.value));
-
-        for (const pair of formData.entries()) {
-          console.log(pair[0], pair[1]);  
-        }
-        const response = await fetch('http://10.129.193.122:3000/upload', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'multipart/form-data; boundary=${formData.boundary}',
-          },
-          body: formData,
-        });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const responseData = await response.json();
-
-        // 处理服务器返回的数据
-        console.log(responseData);
-
-        // 在这里可以根据需要进行其他操作
-      } catch (error) {
-        console.error('Error during POST request:', error);
-        // 处理错误
-      }
-    };
-const textInput = ref<String>("")
-const fileList = ref<UploadUserFile[]>()
-const selectedMode = ref<Number>(0)
-
-const modes: Array<{
-  value: Number,
-  mode: String
-}>
-    = [{
-  value: 0,
-  mode: "测试用"
-  },
-//   {
-//     value: 1,
-//     mode: "Mubert模型"
-//   },
-//   {
-//     value: 2,
-//     mode: "Riffusion模型"
-//   },
-  {
-    value: 1,
-    mode: "MusicGen模型"
-  }]
-// 放入一个form data
-const imgInfo = new FormData();
-
-// 将 textInput 添加到 FormData
-imgInfo.append('time', textInput.value);
-
-// 处理 fileList，假设是一个数组
-imgInfo.append('file', fileList[0])
-
-// 将 selectedMode 添加到 FormData
-imgInfo.append('mode', selectedMode.value);
-
-// 与后端进行通信
-async function backEnd() {
-  try{
-    const response = await fetch('http://10.129.193.122:3000/upload', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: imgInfo
-    });
-    return await response.json();
-  }
-  catch (error) {
-    return { error: error.message || 'Unknown error' };
-  }
-}
-</script> -->
 <script lang="ts" setup>
 import {Upload, UploadFilled, Watch} from '@element-plus/icons-vue';
 import { useStore } from 'vuex';
@@ -241,8 +147,9 @@ const handleClick = async () => {
           console.log(pair[0], pair[1]);  
         }
         // 下面是服务器地址和API接口
-    const response = await fetch('http://10.129.193.122:3000/upload', {
+    const response = await fetch('http://localhost:3000/upload', {
       method: 'POST',
+      mode: 'cors',
       body: formData,
     });
 
