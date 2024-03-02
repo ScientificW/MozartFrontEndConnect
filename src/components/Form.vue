@@ -63,7 +63,7 @@
         <el-button  type="primary" @click="handleClick" :disabled="isLoading"> 
           <span v-if="!isLoading">提交</span>
           <span v-else>处理中…</span> 
-          <img v-if="isLoading" class = 'loading' src="/public/Loading.svg"/>
+          <img v-if="isLoading" class = 'loading' src="/Loading.svg"/>
           <span v-if="isLoading"> 。 </span>  
           <el-icon v-if="!isLoading">
             <Upload/>
