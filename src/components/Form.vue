@@ -176,13 +176,15 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 
 //Loading动画的css样式
 import 'animate.css';
+//告诉 TypeScript 在处理 handleFileChange 函数时，参数 event 的类型应该是 ChangeEvent<HTMLInputElement>
+import { ChangeEvent } from 'vue';
 
 
 // import {ElOption, UploadUserFile} from 'element-plus';
 import {ref} from 'vue';
 // import {postFormData} from "../utils/endpoints.ts";
 const store = useStore();
-const fileList = ref([]);
+const fileList = ref<File[]>([]); // 声明一个 ref，初始化为空数组
 const selectedMode = ref<Number>()
 const textInput = ref('');
 const emit = defineEmits(['update:modelValue'])
@@ -208,7 +210,8 @@ const modes: Array<{
 //   { value: 1, mode: 'MusicGen模型' }
 // ];
 
-const handleFileChange = (event) => {
+
+const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
   fileList.value = [event.target.files[0]];
 };
 
