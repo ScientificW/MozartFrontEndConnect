@@ -76,7 +76,7 @@ const music = store.state.music;
 console.log('Prompt1:', prompt);
 console.log('Music1:', music);
 // 进行拼接，得到API返回音频的地址
-const musicLocation = `http://localhost:3000/music/${music}`;
+// const musicLocation = `http://localhost:3000/music/${music}`;
 // try{
 //   const musicGened = await fetch(musicLocation)
 //   if (response.ok) {
