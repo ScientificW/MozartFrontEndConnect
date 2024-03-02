@@ -79,16 +79,12 @@
 import {Upload, UploadFilled, Watch} from '@element-plus/icons-vue';
 import { useStore } from 'vuex';
 import { ElMessage, ElMessageBox } from 'element-plus';
-
 //Loading动画的css样式
 import 'animate.css';
-//告诉 TypeScript 在处理 handleFileChange 函数时，参数 event 的类型应该是 ChangeEvent<HTMLInputElement>
-import { ChangeEvent } from 'vue';
-
-
 // import {ElOption, UploadUserFile} from 'element-plus';
 import {ref} from 'vue';
 // import {postFormData} from "../utils/endpoints.ts";
+
 const store = useStore();
 const fileList = ref<File[]>([]); // 声明一个 ref，初始化为空数组
 const selectedMode = ref<Number>()
@@ -117,8 +113,14 @@ const modes: Array<{
 // ];
 
 
-const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-  fileList.value = [event.target.files[0]];
+const handleFileChange = (event:Event) => {
+  const target = event.target as HTMLInputElement;
+  const files = target.files;
+  
+  if (files && files.length > 0) {
+    // 更新 fileList 的值为选择的文件列表
+    fileList.value = Array.from(files);
+  }
 };
 
 
