@@ -76,9 +76,11 @@
 </template>
 
 <script lang="ts" setup>
-import {Upload, UploadFilled, Watch} from '@element-plus/icons-vue';
+// import {Upload, UploadFilled, Watch} from '@element-plus/icons-vue';
+import {Upload} from '@element-plus/icons-vue';
 import { useStore } from 'vuex';
-import { ElMessage, ElMessageBox } from 'element-plus';
+// import { ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessage} from 'element-plus';
 //Loading动画的css样式
 import 'animate.css';
 // import {ElOption, UploadUserFile} from 'element-plus';
@@ -90,8 +92,8 @@ const fileList = ref<File[]>([]); // 声明一个 ref，初始化为空数组
 const selectedMode = ref<Number>()
 const textInput = ref('');
 const emit = defineEmits(['update:modelValue'])
-const props = defineProps(['modelValue'])
-const responseInfo = ref('');
+// const props = defineProps(['modelValue'])
+// const responseInfo = ref('');
 //决定Loading动画是否展示
 const isLoading = ref(false);
 
