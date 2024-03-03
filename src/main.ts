@@ -1,21 +1,11 @@
-import { createApp } from "vue";
-import "./assets/style.css";
-import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
-import Intro from "./routes/Intro.vue";
-import Team from "./routes/Team.vue";
-import Exhibition from "./routes/Exhibition.vue";
-import store from './store';
-const routes = [
-  { path: "/", component: Exhibition },
-  { path: "/team", component: Team },
-  { path: "/Intro", component: Intro },
-];
+import { createApp } from "vue";
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-});
+import "./assets/style.css";
+import store from './store';
+
+//封装路由
+import router from './router'
 
 const app = createApp(App);
 app.use(router);
