@@ -157,7 +157,7 @@ const handleClick = async () => {
 
     if (!response.ok) {
           window.alert("请求失败，请稍后再试")
-          throw new Error('Network response was not ok');
+          throw new Error('Request failed due to unstable network connection');
         }
         // 获取返回的数据
         const responseData = await response.json();

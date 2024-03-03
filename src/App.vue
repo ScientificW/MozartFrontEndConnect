@@ -8,9 +8,9 @@
   </div>
 
   <div class="navbar">
-    <router-link to="/Intro">项目简介</router-link>
-    <router-link to="/">项目展示</router-link>
-    <router-link to="/team">成员简介</router-link>
+    <router-link to="/Intro" active-class="active">项目简介</router-link>
+    <router-link to="/" active-class="active">项目展示</router-link>
+    <router-link to="/team" active-class="active">成员简介</router-link>
   </div>
 
   <router-view />

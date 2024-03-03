@@ -10,15 +10,15 @@
           <br/>
           <li><a>温馨提示</a></li>
           <p>
-            图片与音乐的情感色彩本就是主观的，有时出现音乐与图片不适配的情况是正常的。
+            图片与音乐的情感色彩较为主观，本站生成的音乐不一定符合您的预想。
           </p>
-          <p>如果您感到音乐风格与图片并不适配，您可以多次输入进行尝试。</p>
+          <p>如果生成音乐结果令您不满意，您可以尝试再次输入该图片，重新生成结果。</p>
           <p>直到获得令您满意的音乐~</p>
         </ul>
       </div>
     </div>
     <div class="main">
-      <!-- 这是个组件转换的逻辑，isSubmitted为false显示music，反之Form -->
+      <!-- 组件转换逻辑，isSubmitted为false显示music，反之Form -->
       <component :is="isSubmitted ? Music : Form" v-model="isSubmitted" />
       <!-- 临时测试用 -->
       <!-- <component :is="isSubmitted ? Form : Music" v-model="isSubmitted" /> -->

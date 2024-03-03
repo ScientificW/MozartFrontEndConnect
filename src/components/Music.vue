@@ -46,6 +46,13 @@
     <!-- 这是下载 -->
     <p class="show-word">
       <b style="font-size: 1.5em">生成音频：</b>
+      <div>
+        <!-- <audio ref="audioPlayer" :src="MusicGened"></audio> -->
+        <audio ref="audioPlayer" :src="audioSrc" @timeupdate="updateProgress"></audio>
+        <input type="range" ref="progressBar" min="0" :max="audioDuration" v-model="currentProgress" @input="seekTo">
+        <button @click="playAudio">播放</button>
+        <button @click="pauseAudio">暂停</button>
+      </div>
       <a :href="MusicGened" download="generated_audio.mp3">
         下载音频
       </a>
@@ -63,7 +70,7 @@
 
 <script lang="ts" setup>
 import { CloseBold } from '@element-plus/icons-vue';
-import {inject, ref} from 'vue';
+import {Ref, ref,onMounted} from 'vue';
 import { useStore } from 'vuex';
 defineEmits(['update:modelValue'])
 defineProps({
@@ -109,6 +116,49 @@ const MusicGened = ref(""); // 响应式变量用于存储音频文件的URL
     console.error("Error fetching music:", error);
   }
 })();
+
+
+//接下来是音频播放功能对应的代码
+const audioSrc = ref(MusicGened.value); // 替换为您的音频文件链接
+const audioPlayer: Ref<HTMLAudioElement | null> = ref(null);
+const progressBar: Ref<HTMLInputElement | null> = ref(null);
+const currentProgress: Ref<number> = ref(0);
+const audioDuration: Ref<number> = ref(0);
+
+  const playAudio = () => {
+  if (audioPlayer.value) {
+    audioPlayer.value?.play();
+  }
+};
+
+const pauseAudio = () => {
+  if (audioPlayer.value) {
+    audioPlayer.value?.pause();
+  }
+};
+
+const updateProgress = () => {
+  if (audioPlayer.value && progressBar.value) {
+    currentProgress.value = audioPlayer.value.currentTime;
+    progressBar.value.value = audioPlayer.value.currentTime.toString();
+  }
+};
+
+const seekTo = () => {
+  if (audioPlayer.value && progressBar.value) {
+    audioPlayer.value.currentTime = progressBar.value.valueAsNumber;
+  }
+};
+
+onMounted(() => {
+  if (audioPlayer.value) {
+    audioPlayer.value.addEventListener('loadedmetadata', () => {
+      //麻痹的老说我有可能为空值，我加了if判定还报nm错，给他这行语法检查关了
+      // @ts-ignore
+      audioDuration.value = audioPlayer.value.duration;
+    });
+  }
+});
 
 </script>
 

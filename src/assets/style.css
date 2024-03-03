@@ -58,6 +58,11 @@ body {
     background-color: #ffffff;
     color: #495960;
 }
+/* 激活颜色 */
+.navbar a.active {
+    background-color: #ffffff;
+    color: #495960;
+}
 
 /* 列容器 */
 .row {
