@@ -82,7 +82,7 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 //Loading动画的css样式
 import 'animate.css';
 // import {ElOption, UploadUserFile} from 'element-plus';
-import {ref} from 'vue';
+import {ref, onUnmounted} from 'vue';
 // import {postFormData} from "../utils/endpoints.ts";
 
 const store = useStore();
@@ -101,7 +101,7 @@ const modes: Array<{
 }>
     = [{
     value: 0,
-    mode: "测试用"
+    mode: "测试用(请勿选择)"
   },
   {
     value: 1,
@@ -190,6 +190,9 @@ const handleClick = async () => {
     // isLoading.value = false;
     // }
 
+    onUnmounted(()=>{
+      isLoading.value = false;
+    })
 };
 </script>
 
