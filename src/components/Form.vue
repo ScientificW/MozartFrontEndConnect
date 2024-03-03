@@ -63,7 +63,7 @@
         <el-button  type="primary" @click="handleClick" :disabled="isLoading"> 
           <span v-if="!isLoading">提交</span>
           <span v-else>处理中…</span> 
-          <img v-if="isLoading" class = 'loading' src="/public/Loading.svg"/>
+          <img v-if="isLoading" class = 'loading' src="/Loading.svg"/>
           <span v-if="isLoading"> 。 </span>  
           <el-icon v-if="!isLoading">
             <Upload/>
@@ -183,6 +183,7 @@ const handleClick = async () => {
     } catch (error) {
       console.error('Error during POST request:', error);
       ElMessage.error('An error occurred while submitting the form.');
+      isLoading.value = false;
     }
     // finally {
     // // 无论成功还是失败，最终都将 loading 状态设置为 false，隐藏 loading 动画

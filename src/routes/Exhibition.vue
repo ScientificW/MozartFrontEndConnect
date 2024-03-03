@@ -19,7 +19,9 @@
     </div>
     <div class="main">
       <!-- 这是个组件转换的逻辑，isSubmitted为false显示music，反之Form -->
-      <component :is="isSubmitted ? Music : Form" v-model="isSubmitted" />
+      <!-- <component :is="isSubmitted ? Music : Form" v-model="isSubmitted" /> -->
+      <!-- 临时测试用 -->
+      <component :is="isSubmitted ? Form : Music" v-model="isSubmitted" />
     </div>
   </div>
 </template>
