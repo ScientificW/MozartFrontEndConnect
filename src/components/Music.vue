@@ -53,7 +53,7 @@
         <button @click="playAudio">播放</button>
         <button @click="pauseAudio">暂停</button>
       </div>
-      <a :href="MusicGened" download="generated_audio.mp3">
+      <a :href="MusicGened" :download="`${music}`">
         下载音频
       </a>
     </p>
