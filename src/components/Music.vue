@@ -48,7 +48,10 @@
       <b style="font-size: 1.5em">生成音频：</b>
       <div>
         <!-- <audio ref="audioPlayer" :src="MusicGened"></audio> -->
-        <audio ref="audioPlayer" :src="audioSrc" @timeupdate="updateProgress"></audio>
+        <!-- 测试本地播放 -->
+        <!-- <audio ref="audioPlayer" :src = 'testWav' @timeupdate="updateProgress"></audio> -->
+        <!-- <audio ref="audioPlayer" :src="audioSrc" @timeupdate="updateProgress"></audio> -->
+        <audio ref="audioPlayer" :src="MusicGened" @timeupdate="updateProgress"></audio>
         <input type="range" ref="progressBar" min="0" :max="audioDuration" v-model="currentProgress" @input="seekTo">
         <button @click="playAudio">播放</button>
         <button @click="pauseAudio">暂停</button>
@@ -69,6 +72,9 @@
 
 
 <script lang="ts" setup>
+//音频测试
+// import testWav from '/test.wav'
+
 import { CloseBold } from '@element-plus/icons-vue';
 import {Ref, ref,onMounted} from 'vue';
 import { useStore } from 'vuex';
@@ -125,7 +131,7 @@ const progressBar: Ref<HTMLInputElement | null> = ref(null);
 const currentProgress: Ref<number> = ref(0);
 const audioDuration: Ref<number> = ref(0);
 
-  const playAudio = () => {
+const playAudio = () => {
   if (audioPlayer.value) {
     audioPlayer.value?.play();
   }

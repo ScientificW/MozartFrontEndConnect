@@ -1,35 +1,25 @@
 <template>
   <div class="form">
-    <div class="upload-img">
-      <span class="tips">请选择图片</span>
-    <div></div>
-      <!-- <el-upload v-model="fileList" :auto-upload=false accept="image" action="#" drag :limit=1 @change="handleFileChange">
-        <el-icon class="el-icon--upload">
-          <upload-filled/>
-        </el-icon>
-        <div class="el-upload__text">将图片拖动到此处或<em>点击上传</em></div>
-      </el-upload> -->
-      <input type="file" id="file" multiple @change="handleFileChange">
 
+    <!-- 上传图片模块 -->
+    <div class="upload-img">
+      <span class="tips"><b>请选择图片</b></span>
+      <!-- 图像预览 -->
+      <div v-if="ImgChosen">
+        <img :src="fileList.length > 0 ? getFileUrl(fileList[0]) : ''" alt=""  class = "showImg">
+      </div>
+      <input type="file" id="file" multiple @change="handleFileChange">
     </div>
-    <!-- <div class="img-url">
-      <span style="width: 150px">或输入图片链接</span>
-      <el-input v-model="imgUrl" clearable placeholder="请输入图片链接">
-        <template #prepend>
-          <el-select v-model="selectedUrlType" placeholder="请选择" style="width: 90px">
-            <el-option v-for="i in urlTypes" :value="i"/>
-          </el-select>
-        </template>
-      </el-input>
-    </div> -->
+
+    <!-- 选择模式模块 -->
     <div class="options">
       <div class="select">
-        <span class="tips">请选择模式</span>
-          <el-select v-model="selectedMode" placeholder="请选择模式">
-            <el-option v-for=" item  in  modes " :key="(item.value as number)" :label="(item.mode as string)"
-                     :value="(item.value as number)">{{ item.mode }}
-            </el-option>        
-          </el-select>
+        <span class="ModeTips"><b>请选择模式</b></span>
+        <el-select v-model="selectedMode" placeholder="请选择模式">
+          <el-option v-for=" item  in  modes " :key="(item.value as number)" :label="(item.mode as string)"
+             :value="(item.value as number)">{{ item.mode }}
+          </el-option>        
+        </el-select>
       </div>
       <!-- <div class="select">
         <span class="tips">请选择情感</span>
@@ -40,36 +30,28 @@
         </el-select>
       </div> -->
     </div>
+
+    <!-- 选择时长模块 -->
     <div class="text">
-      <span class="tips">请输入音频时长</span>
+      <span class="tips"><b>请输入音频时长</b></span>
       <div class="textbox">
         <input type="text" v-model="textInput" placeholder="输入一个数字，单位为秒">
       </div>
       
     </div>
 
-    <!-- <div class="submit">
-      <el-button type="primary" @click="handleClick"> 提交
-        <el-icon>
+    <!-- 提交模块 -->
+    <div class="submit">
+      <!-- 提交按钮 -->
+      <el-button  type="primary" @click="handleClick" :disabled="isLoading"> 
+        <span v-if="!isLoading">提交</span>
+        <span v-else>处理中…</span> 
+        <img v-if="isLoading" class = 'loading' src="/Loading.svg"/>
+        <span v-if="isLoading"> 。 </span>  
+        <el-icon v-if="!isLoading">
           <Upload/>
         </el-icon>
       </el-button>
-    </div> -->
-
-    <div class="submit">
-      <!-- 使用一个 div 包裹提交按钮和加载动画 -->
-      <div>
-        <!-- 提交按钮 -->
-        <el-button  type="primary" @click="handleClick" :disabled="isLoading"> 
-          <span v-if="!isLoading">提交</span>
-          <span v-else>处理中…</span> 
-          <img v-if="isLoading" class = 'loading' src="/Loading.svg"/>
-          <span v-if="isLoading"> 。 </span>  
-          <el-icon v-if="!isLoading">
-            <Upload/>
-          </el-icon>
-        </el-button>
-      </div>
     </div>
 
   </div>
@@ -94,6 +76,10 @@ const emit = defineEmits(['update:modelValue'])
 // const responseInfo = ref('');
 //决定Loading动画是否展示
 const isLoading = ref(false);
+let ImgChosen = ref(false);
+const getFileUrl = (file: File) => {
+  return URL.createObjectURL(file);
+};
 
 const modes: Array<{
   value: Number,
@@ -112,7 +98,6 @@ const modes: Array<{
 //   { value: 1, mode: 'MusicGen模型' }
 // ];
 
-
 const handleFileChange = (event:Event) => {
   const target = event.target as HTMLInputElement;
   const files = target.files;
@@ -120,6 +105,7 @@ const handleFileChange = (event:Event) => {
   if (files && files.length > 0) {
     // 更新 fileList 的值为选择的文件列表
     fileList.value = Array.from(files);
+    ImgChosen.value = true;
   }
 };
 
@@ -198,6 +184,7 @@ const handleClick = async () => {
 
 <style scoped>
   .form {
+    font-size: 1.3em;
     width: 100%;
     height: 100%;
     padding: 0 10%;
@@ -207,9 +194,13 @@ const handleClick = async () => {
     align-items: center;
   }
 
+  .showImg{
+    max-height: 200px;
+  }
+
   .upload-img {
     height: fit-content;
-    width: 100%;
+    width: 100%;    height: fit-content;
     padding: 10px;
   }
 
@@ -233,26 +224,27 @@ const handleClick = async () => {
     align-items: center;
   }
 
+  .tips {
+    margin-bottom: 15px;
+    display: block;
+    width: 100%;
+    text-align: start;
+  }
+  .ModeTips {
+    margin-bottom: 4px;
+    display: block;
+    width: 100%;
+    text-align: start;
+  }
+
   .select {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
   }
 
-  .submit {
-    width: 10%;
-    height: 20%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .tips {
-    width: 100%;
-    text-align: start;
-  }
-
   .text {
+    display: block;
     width: 100%;
     height: 20%;
     padding: 10px;
@@ -260,7 +252,15 @@ const handleClick = async () => {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    
+  }
+
+  .submit {
+    margin-top: 40px;
+    display: block;
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .textbox{
