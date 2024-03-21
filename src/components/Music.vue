@@ -14,17 +14,11 @@
             justify-content: center;
           "
     >
+      <img :src="ImageReceived" alt="音频封面"  class = "showImg">
       <!-- <img
           alt="音频封面"
-          src={{ imageFile }}
-          style="
-              border-radius: 0.6125em;
-              box-shadow: 0 2px 4px 0 rgba(34, 36, 38, 0.12),
-                0 2px 10px 0 rgba(34, 36, 38, 0.08);
-              max-height: 90%;
-              max-width: 90%;
-              object-fit: contain;
-            "
+          :src= ImageReceived
+          style="max-height: 200px;"
       /> -->
       <br/>
     </div>
@@ -36,13 +30,7 @@
     <p class="show-word">
       <b style="font-size: 1.5em">选用模型：</b> MusicGen
     </p>
-    <!-- 这是播放器 -->
-    <!-- <p class="show-word">
-      <b style="font-size: 1.5em">生成音频：</b>
-      <audio controls>
-        <source :src="MusicGened" type="audio/mpeg"/>
-      </audio>
-    </p> -->
+
     <!-- 这是下载 -->
     <p class="show-word">
       <b style="font-size: 1.5em">生成音频：</b>
@@ -72,11 +60,12 @@
 
 
 <script lang="ts" setup>
+
 //音频测试
 // import testWav from '/test.wav'
 
 import { CloseBold } from '@element-plus/icons-vue';
-import {Ref, ref,onMounted} from 'vue';
+import {Ref, ref,onMounted,onUnmounted} from 'vue';
 import { useStore } from 'vuex';
 defineEmits(['update:modelValue'])
 defineProps({
@@ -88,19 +77,6 @@ const prompt = store.state.prompt;
 const music = store.state.music;
 console.log('Prompt1:', prompt);
 console.log('Music1:', music);
-// 进行拼接，得到API返回音频的地址
-// const musicLocation = `http://localhost:3000/music/${music}`;
-// try{
-//   const musicGened = await fetch(musicLocation)
-//   if (response.ok) {
-//           // 如果响应成功，设置getMusic变量为音频URL
-//           console.log('OK');
-//         } else {
-//           console.error("Failed to fetch music");
-//         }
-//       } catch (error) {
-//         console.error("Error fetching music:", error);
-//       }
 const MusicGened = ref(""); // 响应式变量用于存储音频文件的URL
 
 (async () => {
@@ -124,8 +100,10 @@ const MusicGened = ref(""); // 响应式变量用于存储音频文件的URL
 })();
 
 
+
+
 //接下来是音频播放功能对应的代码
-const audioSrc = ref(MusicGened.value); // 替换为您的音频文件链接
+const audioSrc = ref(`/root/Mozart-Diancai/Diancai-Backend/app/outputs/${music.value}`); // 替换为您的音频文件链接
 const audioPlayer: Ref<HTMLAudioElement | null> = ref(null);
 const progressBar: Ref<HTMLInputElement | null> = ref(null);
 const currentProgress: Ref<number> = ref(0);
@@ -156,7 +134,17 @@ const seekTo = () => {
   }
 };
 
+import emitter from "../utils/emitter";
+const ImageReceived = ref('');
+//收图片事件
+emitter.on('getImage',(url:any)=>{
+  ImageReceived.value = url
+  console.log("收到url：",url)
+})
+
 onMounted(() => {
+  console.log("onMounted触发")
+  
   if (audioPlayer.value) {
     audioPlayer.value.addEventListener('loadedmetadata', () => {
       //麻痹的老说我有可能为空值，我加了if判定还报nm错，给他这行语法检查关了
@@ -165,12 +153,17 @@ onMounted(() => {
     });
   }
 });
-
+onUnmounted(()=>{
+  emitter.off('getImage')
+})
 </script>
 
 <style scoped>
 .return-button {
   display: flex;
   justify-content: center;
+}
+.showImg{
+  max-height: 200px;
 }
 </style>

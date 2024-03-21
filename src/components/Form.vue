@@ -6,7 +6,8 @@
       <span class="tips"><b>请选择图片</b></span>
       <!-- 图像预览 -->
       <div v-if="ImgChosen">
-        <img :src="fileList.length > 0 ? getFileUrl(fileList[0]) : ''" alt=""  class = "showImg">
+        <!-- <img :src="fileList.length > 0 ? getFileUrl(fileList[0]) : ''" alt=""  class = "showImg"> -->
+        <img :src="ImgURL" alt=""  class = "showImg">
       </div>
       <input type="file" id="file" multiple @change="handleFileChange">
     </div>
@@ -66,6 +67,9 @@ import 'animate.css';
 // import {ElOption, UploadUserFile} from 'element-plus';
 import {ref, onUnmounted} from 'vue';
 // import {postFormData} from "../utils/endpoints.ts";
+//传图片用
+import emitter from "../utils/emitter";
+
 
 const store = useStore();
 const fileList = ref<File[]>([]); // 声明一个 ref，初始化为空数组
@@ -80,6 +84,7 @@ let ImgChosen = ref(false);
 const getFileUrl = (file: File) => {
   return URL.createObjectURL(file);
 };
+let ImgURL = ref("");
 
 const modes: Array<{
   value: Number,
@@ -106,7 +111,11 @@ const handleFileChange = (event:Event) => {
     // 更新 fileList 的值为选择的文件列表
     fileList.value = Array.from(files);
     ImgChosen.value = true;
+    // ImgURL.value = URL.createObjectURL(fileList[0].value);
+    ImgURL.value = fileList.value.length > 0 ? getFileUrl(fileList.value[0]) : ''
   }
+  emitter.emit('getImage',ImgURL.value);
+  console.log("图片已上传")
 };
 
 
@@ -123,6 +132,8 @@ const handleClick = async () => {
   }
   
   isLoading.value = true;
+  //临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用
+  // emit('update:modelValue', true) 
 
 // 将表单数据整合进formData
   const formData = new FormData();
@@ -163,6 +174,7 @@ const handleClick = async () => {
       store.commit('setPrompt', prompt.value);
       store.commit('setMusic', music.value);
       // 把Exhibition中isSubmitted改成true,实现正常返回后组件变换为Music
+      //临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用
       emit('update:modelValue', true) 
     }
    
