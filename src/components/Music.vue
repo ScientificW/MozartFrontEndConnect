@@ -14,7 +14,8 @@
             justify-content: center;
           "
     >
-      <img :src="ImageReceived" alt="音频封面"  class = "showImg">
+    <!-- <img src="blob:http://localhost:5173/3d9c7922-8876-484e-af44-b00739143442" alt="音频封面"  class = "showImg"> -->
+    <img :src="ImageReceived" alt="音频封面"  class = "showImg">
       <!-- <img
           alt="音频封面"
           :src= ImageReceived
@@ -75,6 +76,7 @@ defineProps({
 const store = useStore();
 const prompt = store.state.prompt;
 const music = store.state.music;
+const ImageReceived = store.state.ImgURL;
 console.log('Prompt1:', prompt);
 console.log('Music1:', music);
 const MusicGened = ref(""); // 响应式变量用于存储音频文件的URL
@@ -134,16 +136,17 @@ const seekTo = () => {
   }
 };
 
-import emitter from "../utils/emitter";
-const ImageReceived = ref('');
-//收图片事件
-emitter.on('getImage',(url:any)=>{
-  ImageReceived.value = url
-  console.log("收到url：",url)
-})
+// import emitter from "../utils/emitter";
+// const ImageReceived = ref('');
+// //收图片事件
+// emitter.on('getImage',(url:any)=>{
+//   ImageReceived.value = url
+//   console.log("收到url：",url)
+// })//2
 
 onMounted(() => {
-  console.log("onMounted触发")
+  console.log("onMounted触发");
+  console.log("收到url：", ImageReceived.value);
   
   if (audioPlayer.value) {
     audioPlayer.value.addEventListener('loadedmetadata', () => {
@@ -153,9 +156,9 @@ onMounted(() => {
     });
   }
 });
-onUnmounted(()=>{
-  emitter.off('getImage')
-})
+// onUnmounted(()=>{
+//   emitter.off('getImage')
+// })//3
 </script>
 
 <style scoped>

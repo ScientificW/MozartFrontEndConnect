@@ -22,14 +22,6 @@
           </el-option>        
         </el-select>
       </div>
-      <!-- <div class="select">
-        <span class="tips">请选择情感</span>
-        <el-select v-model="selectedMotion" placeholder="请选择情感">
-          <el-option v-for=" i  in  motions " :key="(i.value as number)" :label="(i.motion as string)"
-                     :value="(i.value as number)">{{ i.motion }}
-          </el-option>
-        </el-select>
-      </div> -->
     </div>
 
     <!-- 选择时长模块 -->
@@ -68,7 +60,7 @@ import 'animate.css';
 import {ref, onUnmounted} from 'vue';
 // import {postFormData} from "../utils/endpoints.ts";
 //传图片用
-import emitter from "../utils/emitter";
+// import emitter from "../utils/emitter";//0
 
 
 const store = useStore();
@@ -113,9 +105,10 @@ const handleFileChange = (event:Event) => {
     ImgChosen.value = true;
     // ImgURL.value = URL.createObjectURL(fileList[0].value);
     ImgURL.value = fileList.value.length > 0 ? getFileUrl(fileList.value[0]) : ''
+    // emitter.emit('getImage',ImgURL.value);//1
+    store.commit('setImage', ImgURL.value);
   }
-  emitter.emit('getImage',ImgURL.value);
-  console.log("图片已上传")
+  console.log("图片已上传",ImgURL.value)
 };
 
 
@@ -127,13 +120,12 @@ const handleClick = async () => {
     console.log(selectedMode.value);
     console.log(textInput.value);
     console.log(fileList.value);
-
   return;
   }
   
   isLoading.value = true;
   //临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用
-  // emit('update:modelValue', true) 
+  emit('update:modelValue', true) 
 
 // 将表单数据整合进formData
   const formData = new FormData();
@@ -175,7 +167,7 @@ const handleClick = async () => {
       store.commit('setMusic', music.value);
       // 把Exhibition中isSubmitted改成true,实现正常返回后组件变换为Music
       //临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用
-      emit('update:modelValue', true) 
+      // emit('update:modelValue', true) 
     }
    
     } catch (error) {
@@ -190,6 +182,7 @@ const handleClick = async () => {
 
     onUnmounted(()=>{
       isLoading.value = false;
+      // emitter.off('getImage')
     })
 };
 </script>

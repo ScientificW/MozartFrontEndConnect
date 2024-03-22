@@ -3,13 +3,14 @@ import { createStore } from 'vuex';
 interface AppState {
   prompt: string;
   music: string;
-//   image: File | null;
+  ImgURL: string;
 }
 
 export default createStore({
   state: {
     prompt: '',
     music: '',
+    ImgURL: '',
   } as AppState,
   mutations: {
     setPrompt(state, value) {
@@ -18,8 +19,8 @@ export default createStore({
     setMusic(state, value) {
       state.music = value;
     },
-    // setImage(state, value) {
-    //     state.image = value;
-    //   },
+    setImage(state, value) {
+      state.ImgURL = value;
+    },
   },
 });
