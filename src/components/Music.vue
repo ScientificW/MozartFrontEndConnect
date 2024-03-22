@@ -1,29 +1,16 @@
 <template>
-  <div class="in-page-title" style="text-align: center; width: 85%">
+  <!-- <div class="in-page-title" style="text-align: center; width: 85%">
     <h1>生成结果</h1>
     <br/>
-  </div>
+  </div> -->
   <div class="content-box" style="display: flex">
-    <div
-        style="
-            flex: 4;
-            padding-right: 10px;
-            display: flex;
-            align-items: flex-start;
-            /*align-items: center;*/
-            justify-content: center;
-          "
-    >
-    <!-- <img src="blob:http://localhost:5173/3d9c7922-8876-484e-af44-b00739143442" alt="音频封面"  class = "showImg"> -->
-    <img :src="ImageReceived" alt="音频封面"  class = "showImg">
-      <!-- <img
-          alt="音频封面"
-          :src= ImageReceived
-          style="max-height: 200px;"
-      /> -->
+    <div class = "ImgDisplay">
+      <img :src="ImageReceived" alt="音频封面"  class = "showImg">
       <br/>
     </div>
     <div style="flex: 6">
+      <h1>生成结果</h1>
+      <br/>
       <p class="show-word">
       <b style="font-size: 1.5em">文字描述：</b><br/>
       {{ prompt }}
@@ -32,27 +19,25 @@
       <b style="font-size: 1.5em">选用模型：</b> MusicGen
     </p>
 
-    <!-- 这是下载 -->
+    <!-- 这是音乐播放和下载 -->
     <p class="show-word">
       <b style="font-size: 1.5em">生成音频：</b>
       <div>
-        <!-- <audio ref="audioPlayer" :src="MusicGened"></audio> -->
-        <!-- 测试本地播放 -->
-        <!-- <audio ref="audioPlayer" :src = 'testWav' @timeupdate="updateProgress"></audio> -->
-        <!-- <audio ref="audioPlayer" :src="audioSrc" @timeupdate="updateProgress"></audio> -->
+        <!-- 播放 -->
         <audio ref="audioPlayer" :src="MusicGened" @timeupdate="updateProgress"></audio>
-        <input type="range" ref="progressBar" min="0" :max="audioDuration" v-model="currentProgress" @input="seekTo">
-        <button @click="playAudio">播放</button>
-        <button @click="pauseAudio">暂停</button>
+        <input type="range" ref="progressBar" class="progress-bar" min="0" :max="audioDuration" v-model="currentProgress" @input="seekTo">
+        <button class="Buttons" @click="playAudio">播放</button>
+        <button  class="Buttons" @click="pauseAudio">暂停</button>
       </div>
-      <a :href="MusicGened" :download="`${music}`">
+      <!-- 下载 -->
+      <a :href="MusicGened" :download="`${music}`" class="download-link">
         下载音频
       </a>
     </p>
     </div>
   </div>
   <div class="return-button">
-    <el-button type="primary" @click="$emit('update:modelValue', false)">
+    <el-button type="primary" @click="$emit('update:modelValue', false)" class="return-btn">
       返回
       <el-icon style="margin-left: 5px"><CloseBold /></el-icon>
     </el-button>
@@ -166,7 +151,54 @@ onMounted(() => {
   display: flex;
   justify-content: center;
 }
+.ImgDisplay{
+  flex: 4;
+  padding-top: 50px;
+  display: flex;
+  align-items: flex-start;
+  /* align-items: center; */
+  justify-content: center;
+  /* 测试用 */
+  /* background-color: rgb(72, 50, 23); */
+}
 .showImg{
-  max-height: 200px;
+  max-height: 350px;
+  max-width: 350px;
+}
+.progress-bar {
+  margin-top: 20px;
+  display: block;
+  width: 30%;
+  height: 40px;
+}
+.download-link {
+  display: block;
+  margin-top: 20px;
+}
+.Buttons{
+  width: 15%;
+  background: none;
+  /* margin: 0 10px; */
+  font-size: 20px;
+  border: none;
+  color: #0e0f29;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.Buttons:hover {
+  color: #e9ffff;
+  background-color: #92aac5
+}
+.return-btn {
+  background-color: #92aac5;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.return-btn:hover {
+  background-color: #414f6e;
 }
 </style>

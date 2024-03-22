@@ -43,7 +43,7 @@ body {
     text-align: center;
     padding: 14px 20px;
     text-decoration: none;
-    margin: 0 10px;
+    margin: 0 0px;
     /* 添加左右间距 */
 }
 
@@ -60,24 +60,19 @@ body {
 }
 /* 激活颜色 */
 .navbar a.active {
-    background-color: #ffffff;
-    color: #495960;
+    background-color: #d9e4e3d1;;
+    color: #23341d;
 }
 
 /* 列容器 */
 .row {
     display: flex;
     flex-wrap: wrap;
-
 }
-
-/* 创建两个列 */
-/* 边栏 */
 .side {
     flex: 10%;
-    background-color: #f1ffff;
+    background-color: #f1f4f7;
     padding: 20px;
-
 }
 
 .menu {
@@ -90,24 +85,17 @@ body {
     margin: 0;
     padding: 0;
 }
-
 .menu li {
+    font-weight: bold;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #6c8e8e;
-    color: #ffffff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    background-color: #ffffff;
+    border-bottom: 1px solid #ced4da;
 }
-
-/* 鼠标移到标签上实现变色 */
-/* 组合选择器 */
-.menu li:hover {
-    background-color: #5f8385;
-}
-
 .menu a {
+    font-size: 1.3em;
     text-decoration: none;
-    color: white;
+    color: rgb(113, 135, 171);
 }
 
 /* 主要的内容区域 */
@@ -119,9 +107,10 @@ body {
 
 /* 底部 */
 .footer {
+    border-top: 1px solid #ced4da;
     padding: 20px;
     text-align: center;
-    background: #ddd;
+    background: #ffffff;
 }
 
 /* 表格格式 */

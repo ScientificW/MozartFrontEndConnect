@@ -9,7 +9,7 @@
         <!-- <img :src="fileList.length > 0 ? getFileUrl(fileList[0]) : ''" alt=""  class = "showImg"> -->
         <img :src="ImgURL" alt=""  class = "showImg">
       </div>
-      <input type="file" id="file" multiple @change="handleFileChange">
+      <input class="imgInput" type="file" id="file" multiple @change="handleFileChange">
     </div>
 
     <!-- 选择模式模块 -->
@@ -36,7 +36,7 @@
     <!-- 提交模块 -->
     <div class="submit">
       <!-- 提交按钮 -->
-      <el-button  type="primary" @click="handleClick" :disabled="isLoading"> 
+      <el-button  class="submit-btn" type="primary" @click="handleClick" :disabled="isLoading"> 
         <span v-if="!isLoading">提交</span>
         <span v-else>处理中…</span> 
         <img v-if="isLoading" class = 'loading' src="/Loading.svg"/>
@@ -125,7 +125,7 @@ const handleClick = async () => {
   
   isLoading.value = true;
   //临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用
-  // emit('update:modelValue', true) 
+  emit('update:modelValue', true) 
 
 // 将表单数据整合进formData
   const formData = new FormData();
@@ -167,7 +167,7 @@ const handleClick = async () => {
       store.commit('setMusic', music.value);
       // 把Exhibition中isSubmitted改成true,实现正常返回后组件变换为Music
       //临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用
-      emit('update:modelValue', true) 
+      // emit('update:modelValue', true) 
     }
    
     } catch (error) {
@@ -235,6 +235,12 @@ const handleClick = async () => {
     width: 100%;
     text-align: start;
   }
+  .imgInput{
+    color: rgb(22, 22, 35);
+    padding: 8px 16px;
+    font-size: 16px;
+    border-radius: 5px;
+  }
   .ModeTips {
     margin-bottom: 4px;
     display: block;
@@ -279,4 +285,16 @@ const handleClick = async () => {
     width: 43%;
     height: 43%;
   }
+  .submit-btn {
+  background-color: rgb(103, 137, 177);
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.submit-btn:hover {
+  background-color: #414f6e;
+}
 </style>
