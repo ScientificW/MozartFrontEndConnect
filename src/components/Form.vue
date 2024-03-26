@@ -286,7 +286,7 @@ const handleClick = async () => {
     height: 43%;
   }
   .submit-btn {
-  background-color: rgb(103, 137, 177);
+  background-color: rgb(135, 166, 201);
   color: rgb(255, 255, 255);
   border: none;
   padding: 8px 16px;
