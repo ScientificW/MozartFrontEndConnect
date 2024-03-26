@@ -17,6 +17,7 @@
     "element-plus": "^2.3.9",
     "mitt": "^3.0.1",
     "only-allow": "1.2.1",
+    "video.js": "^8.10.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
     "vuex": "^4.1.0"

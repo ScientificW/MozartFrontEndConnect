@@ -26,7 +26,7 @@
 
     <!-- 选择时长模块 -->
     <div class="text">
-      <span class="tips"><b>请输入音频时长</b></span>
+      <span class="tips"><b>请输入期望音频时长</b></span>
       <div class="textbox">
         <input type="text" v-model="textInput" placeholder="输入一个数字，单位为秒">
       </div>

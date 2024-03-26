@@ -4,6 +4,9 @@ import { createApp } from "vue";
 import "./assets/style.css";
 import store from './store';
 
+ 
+
+
 //封装路由
 import router from './router'
 

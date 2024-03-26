@@ -55,13 +55,13 @@ body {
 /* 鼠标移动到链接的颜色 */
 /* 组合选择器 */
 .navbar a:hover {
-    background-color: #ffffff;
-    color: #495960;
+    background-color: #d9e4e3d1;;
+    color: #23341d;
 }
 /* 激活颜色 */
 .navbar a.active {
-    background-color: #d9e4e3d1;;
-    color: #23341d;
+    background-color: #ffffff;
+    color: #495960;
 }
 
 /* 列容器 */
