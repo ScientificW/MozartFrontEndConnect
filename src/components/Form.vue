@@ -131,7 +131,7 @@ const handleClick = async () => {
   const formData = new FormData();
   formData.append('file', fileList.value[0]);
   // formData.append('mode', selectedMode.value);
-  formData.append('time', textInput.value);
+  formData.append('music_duration', textInput.value);
 // 进行通信
   try {
     for (const pair of formData.entries()) {
