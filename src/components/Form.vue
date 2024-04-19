@@ -12,7 +12,7 @@
       <input class="imgInput" type="file" id="file" multiple @change="handleFileChange">
     </div>
 
-    <!-- 选择模式模块 -->
+    <!-- 选择模式模块
     <div class="options">
       <div class="select">
         <span class="ModeTips"><b>请选择模式</b></span>
@@ -22,7 +22,7 @@
           </el-option>        
         </el-select>
       </div>
-    </div>
+    </div> -->
 
     <!-- 选择时长模块 -->
     <div class="text">
@@ -78,18 +78,18 @@ const getFileUrl = (file: File) => {
 };
 let ImgURL = ref("");
 
-const modes: Array<{
-  value: Number,
-  mode: String
-}>
-    = [{
-    value: 0,
-    mode: "测试用(请勿选择)"
-  },
-  {
-    value: 1,
-    mode: "MusicGen模型"
-  }]
+// const modes: Array<{
+//   value: Number,
+//   mode: String
+// }>
+//     = [{
+//     value: 0,
+//     mode: "测试用(请勿选择)"
+//   },
+//   {
+//     value: 1,
+//     mode: "MusicGen模型"
+//   }]
 // const modes = [
 //   { value: 0, mode: '测试用' },
 //   { value: 1, mode: 'MusicGen模型' }
@@ -130,7 +130,7 @@ const handleClick = async () => {
 // 将表单数据整合进formData
   const formData = new FormData();
   formData.append('file', fileList.value[0]);
-  formData.append('mode', selectedMode.value);
+  // formData.append('mode', selectedMode.value);
   formData.append('time', textInput.value);
 // 进行通信
   try {
@@ -157,7 +157,7 @@ const handleClick = async () => {
         const music = ref('');
         
         prompt.value = responseData.prompt;
-        music.value = responseData.result_file;
+        music.value = responseData.result_file_name;
 
         // 在这里可以根据需要进行其他操作
         
