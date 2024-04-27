@@ -44,8 +44,6 @@
       </div>
     </div>
 
-
-
     <!-- 提交模块 -->
     <div class="submit">
       <!-- 提交按钮 -->
@@ -91,18 +89,18 @@ const getFileUrl = (file: File) => {
 };
 let ImgURL = ref("");
 
-const modes: Array<{
-  value: Number,
-  mode: String
-}>
-    = [{
-    value: 0,
-    mode: "测试用(请勿选择)"
-  },
-  {
-    value: 1,
-    mode: "MusicGen模型"
-  }]
+// const modes: Array<{
+//   value: Number,
+//   mode: String
+// }>
+//     = [{
+//     value: 0,
+//     mode: "测试用(请勿选择)"
+//   },
+//   {
+//     value: 1,
+//     mode: "MusicGen模型"
+//   }]
 // const modes = [
 //   { value: 0, mode: '测试用' },
 //   { value: 1, mode: 'MusicGen模型' }
@@ -143,8 +141,8 @@ const handleClick = async () => {
 // 将表单数据整合进formData
   const formData = new FormData();
   formData.append('file', fileList.value[0]);
-  formData.append('mode', selectedMode.value);
-  formData.append('time', textInput.value);
+  // formData.append('mode', selectedMode.value);
+  formData.append('music_duration', textInput.value);
 // 进行通信
   try {
     for (const pair of formData.entries()) {
@@ -170,7 +168,7 @@ const handleClick = async () => {
         const music = ref('');
         
         prompt.value = responseData.prompt;
-        music.value = responseData.result_file;
+        music.value = responseData.result_file_name;
 
         // 在这里可以根据需要进行其他操作
         
