@@ -89,18 +89,18 @@ const getFileUrl = (file: File) => {
 };
 let ImgURL = ref("");
 
-// const modes: Array<{
-//   value: Number,
-//   mode: String
-// }>
-//     = [{
-//     value: 0,
-//     mode: "测试用(请勿选择)"
-//   },
-//   {
-//     value: 1,
-//     mode: "MusicGen模型"
-//   }]
+const modes: Array<{
+  value: Number,
+  mode: String
+}>
+    = [{
+    value: 0,
+    mode: "测试用(请勿选择)"
+  },
+  {
+    value: 1,
+    mode: "MusicGen模型"
+  }]
 // const modes = [
 //   { value: 0, mode: '测试用' },
 //   { value: 1, mode: 'MusicGen模型' }
