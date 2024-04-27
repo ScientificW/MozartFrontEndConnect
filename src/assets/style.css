@@ -13,7 +13,7 @@ body {
     padding: 80px;
     text-align: center;
     font-family: "Lucida Sans";
-    background-image: url("./header-image.jpg");
+    background-image: url("./header-image2.jpg");
     color: #202447;
     text-shadow: 2px 2px 2px white;
     background-size: cover;
@@ -21,11 +21,15 @@ body {
 
 /* 标题字体加大 */
 .header h1 {
-    font-size: 40px;
+    font-size: 75px;
+}
+.header h3 {
+    font-size: 25px;
 }
 
 /* 导航 */
 .navbar {
+    height: 65px;
     overflow: hidden;
     background-color: #6c8e8e;
     display: flex;

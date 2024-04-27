@@ -20,6 +20,7 @@
     "video.js": "^8.10.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
+    "vuedraggable": "^2.24.3",
     "vuex": "^4.1.0"
   },
   "devDependencies": {

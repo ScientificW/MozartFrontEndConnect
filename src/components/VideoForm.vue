@@ -126,7 +126,7 @@
     
     isLoading.value = true;
     //临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用
-    // emit('update:modelValue', true) 
+    emit('update:modelValue', true)
   
   // 将表单数据整合进formData
     const formData = new FormData();
@@ -168,7 +168,7 @@
         store.commit('setMusic', music.value);
         // 把Exhibition中isSubmitted改成true,实现正常返回后组件变换为Music
         //临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用
-        emit('update:modelValue', true) 
+        // emit('update:modelValue', true) 
       }
      
       } catch (error) {

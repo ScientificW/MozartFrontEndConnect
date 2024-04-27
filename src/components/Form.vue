@@ -1,37 +1,50 @@
 <template>
   <div class="form">
-
-    <!-- 上传图片模块 -->
-    <div class="upload-img">
-      <span class="tips"><b>请选择图片</b></span>
+    <div class="forms" style="display: flex;flex-direction: row;align-items: center;">
+      <!-- 上传图片模块 -->
+      <div class="LeftForm">
+        <span class="tips"><b>请选择图片</b></span>
       <!-- 图像预览 -->
       <div v-if="ImgChosen">
         <!-- <img :src="fileList.length > 0 ? getFileUrl(fileList[0]) : ''" alt=""  class = "showImg"> -->
         <img :src="ImgURL" alt=""  class = "showImg">
       </div>
       <input class="imgInput" type="file" id="file" multiple @change="handleFileChange">
-    </div>
+      </div>
 
-    <!-- 选择模式模块 -->
-    <div class="options">
-      <div class="select">
-        <span class="ModeTips"><b>请选择模式</b></span>
-        <el-select v-model="selectedMode" placeholder="请选择模式">
-          <el-option v-for=" item  in  modes " :key="(item.value as number)" :label="(item.mode as string)"
-             :value="(item.value as number)">{{ item.mode }}
-          </el-option>        
-        </el-select>
+      <div class="RightForm" style="display: flex;flex-direction: column;align-items: center; ">
+        <!-- 选择模式模块 -->
+        <div class="options">
+          <div class="select">
+            <span class="ModeTips"><b>请选择模式</b></span>
+            <el-select v-model="selectedMode" placeholder="请选择模式">
+              <el-option v-for=" item  in  modes " :key="(item.value as number)" :label="(item.mode as string)"
+                :value="(item.value as number)">{{ item.mode }}
+              </el-option>        
+            </el-select>
+          </div>
+        </div>
+        
+        <!-- 文本输入模块 演示 -->
+        <!-- <div class="text">
+          <span class="tips"><b>请试着简要描述一下您对生成音乐的期望</b></span>
+          <div class="textbox">
+            <input type="text" v-model="textInput" placeholder="输入您的指导">
+          </div>
+        </div> -->
+
+        <!-- 选择时长模块 -->
+        <div class="text">
+          <span class="tips"><b>请输入期望音频时长</b></span>
+          <div class="textbox">
+            <input type="text" v-model="textInput" placeholder="输入一个数字，单位为秒">
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- 选择时长模块 -->
-    <div class="text">
-      <span class="tips"><b>请输入期望音频时长</b></span>
-      <div class="textbox">
-        <input type="text" v-model="textInput" placeholder="输入一个数字，单位为秒">
-      </div>
-      
-    </div>
+
 
     <!-- 提交模块 -->
     <div class="submit">
