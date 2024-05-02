@@ -31,7 +31,7 @@ body {
 .navbar {
     height: 65px;
     overflow: hidden;
-    background-color: #6c8e8e;
+    background-color: #d5acb6;
     display: flex;
     /* 使用弹性布局 */
     justify-content: center;
@@ -42,7 +42,7 @@ body {
 .navbar a {
     float: left;
     display: block;
-    background-color: #6c8e8e;
+    background-color: #d5acb6;
     color: white;
     text-align: center;
     padding: 14px 20px;
@@ -59,13 +59,13 @@ body {
 /* 鼠标移动到链接的颜色 */
 /* 组合选择器 */
 .navbar a:hover {
-    background-color: #d9e4e3d1;;
-    color: #23341d;
+    background-color: #ffefefd1;;
+    color: #341d1d;
 }
 /* 激活颜色 */
 .navbar a.active {
     background-color: #ffffff;
-    color: #495960;
+    color: #5b4646;
 }
 
 /* 列容器 */
