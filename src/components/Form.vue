@@ -1,20 +1,29 @@
 <template>
   <div class="form">
     <div class="forms" style="display: flex;flex-direction: row;align-items: center;">
-      <!-- 上传图片模块 -->
-      <div class="LeftForm">
+
+
+
+
+
+
+      <!-- 左边的图片模块 -->
+      <div class="LeftForm" id="drop_zone" @dragover="handleDragOver" @drop="handleDrop" style="align-items: column;">
         <span class="tips"><b>请选择图片</b></span>
-      <!-- 图像预览 -->
-      <div v-if="ImgChosen">
-        <!-- <img :src="fileList.length > 0 ? getFileUrl(fileList[0]) : ''" alt=""  class = "showImg"> -->
-        <img :src="ImgURL" alt=""  class = "showImg">
-      </div>
-      <input class="imgInput" type="file" id="file" multiple @change="handleFileChange">
+        <div v-if="ImgChosen">
+          <img :src="ImgURL" alt=""  class = "showImg">
+        </div>
+        <input class="imgInput" type="file" image="./DragToUpload.png" id="file" multiple @change="handleFileChange">
+        <div v-if="!ImgChosen">
+          <img src="public\DragToUpload.png" alt="" style="height: 200px; width: 200px">
+        </div>
       </div>
 
+
+      <!-- 右边的块开始 -->
       <div class="RightForm" style="display: flex;flex-direction: column;align-items: center; ">
         <!-- 选择模式模块 -->
-        <div class="options">
+        <!-- <div class="options">
           <div class="select">
             <span class="ModeTips"><b>请选择模式</b></span>
             <el-select v-model="selectedMode" placeholder="请选择模式">
@@ -23,15 +32,15 @@
               </el-option>        
             </el-select>
           </div>
-        </div>
+        </div> -->
         
         <!-- 文本输入模块 演示 -->
-        <!-- <div class="text">
-          <span class="tips"><b>请试着简要描述一下您对生成音乐的期望</b></span>
+        <div class="text">
+          <span class="tips"><b>请试着简要表达一下您对生成音乐的期望</b></span>
           <div class="textbox">
-            <input type="text" v-model="textInput" placeholder="输入您的指导">
+            <input type="text" v-model="instruction" placeholder="输入您的描述">
           </div>
-        </div> -->
+        </div>
 
         <!-- 选择时长模块 -->
         <div class="text">
@@ -42,6 +51,7 @@
         </div>
 
       </div>
+      <!-- 右边的块结束 -->
     </div>
 
     <!-- 提交模块 -->
@@ -70,14 +80,13 @@ import 'animate.css';
 // import {ElOption, UploadUserFile} from 'element-plus';
 import {ref, onUnmounted} from 'vue';
 // import {postFormData} from "../utils/endpoints.ts";
-//传图片用
-// import emitter from "../utils/emitter";//0
 
 
 const store = useStore();
-const fileList = ref<File[]>([]); // 声明一个 ref，初始化为空数组
+const fileList = ref<File[]>([]); 
 const selectedMode = ref<Number>()
 const textInput = ref('');
+const instruction = ref('')
 const emit = defineEmits(['update:modelValue'])
 // const props = defineProps(['modelValue'])
 // const responseInfo = ref('');
@@ -101,34 +110,50 @@ const modes: Array<{
     value: 1,
     mode: "MusicGen模型"
   }]
-// const modes = [
-//   { value: 0, mode: '测试用' },
-//   { value: 1, mode: 'MusicGen模型' }
-// ];
 
-const handleFileChange = (event:Event) => {
-  const target = event.target as HTMLInputElement;
-  const files = target.files;
-  
-  if (files && files.length > 0) {
-    // 更新 fileList 的值为选择的文件列表
-    fileList.value = Array.from(files);
-    ImgChosen.value = true;
-    // ImgURL.value = URL.createObjectURL(fileList[0].value);
-    ImgURL.value = fileList.value.length > 0 ? getFileUrl(fileList.value[0]) : ''
-    // emitter.emit('getImage',ImgURL.value);//1
-    store.commit('setImage', ImgURL.value);
+
+
+  const handleDragOver = (event:Event) => {
+    event.preventDefault();
+  };
+  const handleDrop = (event:Event) => {
+    event.preventDefault();
+    console.log("drop了")
+    const files = event.dataTransfer.files;
+    if (files) {
+      // 更新 fileList 的值为选择的文件列表
+      fileList.value = Array.from(files);
+
+      ImgChosen.value = true;
+      ImgURL.value = fileList.value.length > 0 ? getFileUrl(fileList.value[0]) : ''
+      store.commit('setImage', ImgURL.value);
+      console.log("files：", files);
+    }
+    console.log("拖拽图片已上传",ImgURL.value)
   }
-  console.log("图片已上传",ImgURL.value)
-};
+
+
+  const handleFileChange = (event:Event) => {
+    const target = event.target as HTMLInputElement;
+    const files = target.files;
+    if (files && files.length > 0) {
+      // 更新 fileList 的值为选择的文件列表
+      fileList.value = Array.from(files);
+      ImgChosen.value = true;
+      ImgURL.value = fileList.value.length > 0 ? getFileUrl(fileList.value[0]) : ''
+      store.commit('setImage', ImgURL.value);
+      console.log("files：", files);
+    }
+    console.log("选择的图片已上传",ImgURL.value)
+  };
 
 
 
 const handleClick = async () => {
   // 一个判断，表格需要填完整才能上传，否则弹窗提醒
-  if (selectedMode.value === null || textInput.value === '' || fileList.value.length === 0) {
+  if (instruction.value === null || textInput.value === '' || fileList.value.length === 0) {
     window.alert('请完整填写需求');
-    console.log(selectedMode.value);
+    console.log(instruction.value);
     console.log(textInput.value);
     console.log(fileList.value);
   return;
@@ -141,7 +166,7 @@ const handleClick = async () => {
 // 将表单数据整合进formData
   const formData = new FormData();
   formData.append('file', fileList.value[0]);
-  // formData.append('mode', selectedMode.value);
+  formData.append('instruction', instruction.value);
   formData.append('music_duration', textInput.value);
 // 进行通信
   try {
@@ -193,7 +218,6 @@ const handleClick = async () => {
 
     onUnmounted(()=>{
       isLoading.value = false;
-      // emitter.off('getImage')
     })
 };
 </script>
@@ -251,6 +275,8 @@ const handleClick = async () => {
     padding: 8px 16px;
     font-size: 16px;
     border-radius: 5px;
+    cursor: pointer;
+    display: block;
   }
   .ModeTips {
     margin-bottom: 4px;
