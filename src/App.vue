@@ -1,8 +1,9 @@
 <template>
   <div class="header">
     <h1>点彩成乐</h1>
+    <h2>Mozart's Touch</h2>
     <h3>
-      Mozart's Touch，一个多模态图像配乐系统<br />
+      轻量化多模态配乐系统<br />
       生活里的所有人，都是音乐家。
     </h3>
   </div>

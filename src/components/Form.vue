@@ -1,13 +1,7 @@
 <template>
   <div class="form">
     <div class="forms" style="display: flex;flex-direction: row;align-items: center;">
-
-
-
-
-
-
-      <!-- 左边的图片模块 -->
+      <!-- 上传图片模块 -->
       <div class="LeftForm" id="drop_zone" @dragover="handleDragOver" @drop="handleDrop" style="align-items: column;">
         <span class="tips"><b>请选择图片</b></span>
         <div v-if="ImgChosen">
@@ -23,20 +17,20 @@
       <!-- 右边的块开始 -->
       <div class="RightForm" style="display: flex;flex-direction: column;align-items: center; ">
         <!-- 选择模式模块 -->
-        <!-- <div class="options">
+        <div class="options">
           <div class="select">
             <span class="ModeTips"><b>请选择模式</b></span>
             <el-select v-model="selectedMode" placeholder="请选择模式">
-              <el-option v-for=" item  in  modes " :key="(item.value as number)" :label="(item.mode as string)"
-                :value="(item.value as number)">{{ item.mode }}
+              <el-option v-for=" item  in  modes " :key="(item.value as string)" :label="(item.mode as string)"
+                :value="(item.value as string)">{{ item.mode }}
               </el-option>        
             </el-select>
           </div>
-        </div> -->
+        </div>
         
         <!-- 文本输入模块 演示 -->
         <div class="text">
-          <span class="tips"><b>请试着简要表达一下您对生成音乐的期望</b></span>
+          <span class="tips"><b>请简要描述您对生成音乐的期望*</b></span>
           <div class="textbox">
             <input type="text" v-model="instruction" placeholder="输入您的描述">
           </div>
@@ -44,7 +38,7 @@
 
         <!-- 选择时长模块 -->
         <div class="text">
-          <span class="tips"><b>请输入期望音频时长</b></span>
+          <span class="tips"><b>请输入音频时长（默认 20 秒）*</b></span>
           <div class="textbox">
             <input type="text" v-model="textInput" placeholder="输入一个数字，单位为秒">
           </div>
@@ -83,10 +77,10 @@ import {ref, onUnmounted} from 'vue';
 
 
 const store = useStore();
-const fileList = ref<File[]>([]); 
-const selectedMode = ref<Number>()
+const fileList = ref<File[]>([]); // 声明一个 ref，初始化为空数组
+const selectedMode = ref('')
 const textInput = ref('');
-const instruction = ref('')
+const instruction = ref('');
 const emit = defineEmits(['update:modelValue'])
 // const props = defineProps(['modelValue'])
 // const responseInfo = ref('');
@@ -99,18 +93,22 @@ const getFileUrl = (file: File) => {
 let ImgURL = ref("");
 
 const modes: Array<{
-  value: Number,
+  value: String,
   mode: String
 }>
     = [{
-    value: 0,
+    value: '0',
     mode: "测试用(请勿选择)"
   },
   {
-    value: 1,
+    value: '1',
     mode: "MusicGen模型"
-  }]
-
+  },
+  {
+    value: '2',
+    mode: "Suno.ai模型"
+  }
+]
 
 
   const handleDragOver = (event:Event) => {
@@ -118,7 +116,7 @@ const modes: Array<{
   };
   const handleDrop = (event:Event) => {
     event.preventDefault();
-    console.log("drop了")
+    console.log("drop image")
     const files = event.dataTransfer.files;
     if (files) {
       // 更新 fileList 的值为选择的文件列表
@@ -136,26 +134,27 @@ const modes: Array<{
   const handleFileChange = (event:Event) => {
     const target = event.target as HTMLInputElement;
     const files = target.files;
+
     if (files && files.length > 0) {
       // 更新 fileList 的值为选择的文件列表
       fileList.value = Array.from(files);
       ImgChosen.value = true;
       ImgURL.value = fileList.value.length > 0 ? getFileUrl(fileList.value[0]) : ''
       store.commit('setImage', ImgURL.value);
-      console.log("files：", files);
     }
-    console.log("选择的图片已上传",ImgURL.value)
+    console.log("图片已上传",ImgURL.value)
   };
 
 
 
 const handleClick = async () => {
   // 一个判断，表格需要填完整才能上传，否则弹窗提醒
-  if (instruction.value === null || textInput.value === '' || fileList.value.length === 0) {
+  if (selectedMode.value === null || fileList.value.length === 0) {
     window.alert('请完整填写需求');
-    console.log(instruction.value);
-    console.log(textInput.value);
+    console.log(selectedMode.value);
     console.log(fileList.value);
+    console.log(textInput.value);
+    console.log(instruction.value);
   return;
   }
   
@@ -166,15 +165,19 @@ const handleClick = async () => {
 // 将表单数据整合进formData
   const formData = new FormData();
   formData.append('file', fileList.value[0]);
+  formData.append('mode', selectedMode.value);
+  formData.append('music_duration', textInput.value === '' ? '20' : textInput.value);
   formData.append('instruction', instruction.value);
-  formData.append('music_duration', textInput.value);
+  
+  console.log(selectedMode.value);
+  console.log(textInput.value);
 // 进行通信
   try {
     for (const pair of formData.entries()) {
           console.log(pair[0], pair[1]);  
         }
         // 下面是服务器地址和API接口
-    const response = await fetch('http://localhost:3000/upload', {
+    const response = await fetch('http://localhost:3001/upload', {
       method: 'POST',
       mode: 'cors',
       body: formData,
@@ -191,9 +194,11 @@ const handleClick = async () => {
         console.log(responseData);
         const prompt = ref('');
         const music = ref('');
-        
-        prompt.value = responseData.prompt;
+        const mode = ref('');
+        prompt.value = responseData.converted_prompt;
         music.value = responseData.result_file_name;
+        mode.value = responseData.mode;
+        console.log(responseData.result_file_name);
 
         // 在这里可以根据需要进行其他操作
         
@@ -201,9 +206,10 @@ const handleClick = async () => {
       // 把数据扔进vuex
       store.commit('setPrompt', prompt.value);
       store.commit('setMusic', music.value);
+      store.commit('setMode', mode.value);
       // 把Exhibition中isSubmitted改成true,实现正常返回后组件变换为Music
       //临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用
-      emit('update:modelValue', true) 
+      emit('update:modelValue', true); 
     }
    
     } catch (error) {

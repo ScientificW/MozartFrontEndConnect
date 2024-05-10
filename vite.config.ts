@@ -17,4 +17,9 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
   ],
+  server: {
+    host: '0.0.0.0',
+    port: 6006,
+    https: false,
+  }
 });
