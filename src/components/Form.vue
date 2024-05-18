@@ -1,13 +1,7 @@
 <template>
   <div class="form">
     <div class="forms" style="display: flex;flex-direction: row;align-items: center;">
-
-
-
-
-
-
-      <!-- 左边的图片模块 -->
+      <!-- 上传图片模块 -->
       <div class="LeftForm" id="drop_zone" @dragover="handleDragOver" @drop="handleDrop" style="align-items: column;">
         <span class="tips"><b>请选择图片</b></span>
         <div v-if="ImgChosen">
