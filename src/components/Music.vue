@@ -16,7 +16,7 @@
       {{ prompt }}
     </p>
     <p class="show-word">
-      <b style="font-size: 1.5em">选用模型：</b> MusicGen
+      <b style="font-size: 1.5em">选用模型：</b> {{mode}}
     </p>
 
     <!-- 这是音乐播放和下载 -->
@@ -60,6 +60,7 @@ defineProps({
 // 获取vuex中存储的数据
 const store = useStore();
 const prompt = store.state.prompt;
+const mode = store.state.mode;
 const music = store.state.music;
 const ImageReceived = store.state.ImgURL;
 console.log('Prompt1:', prompt);
@@ -69,17 +70,25 @@ const MusicGened = ref(""); // 响应式变量用于存储音频文件的URL
 (async () => {
   try {
     // 假设你有一个变量 music 包含音频文件名
-    const musicLocation = `http://localhost:3000/music/${music}`;
+    let musicLocation = `${music}`;
 
-    // 发起 fetch 请求
-    const response = await fetch(musicLocation);
+    // 判断 musicLocation 的网址前缀是否是 http://localhost
+    if (musicLocation.startsWith("http://localhost")) {
+      // 发起 fetch 请求
+      const response = await fetch(musicLocation);
 
-    if (response.ok) {
-      // 如果响应成功，设置MusicGened变量为音频URL
-      MusicGened.value = URL.createObjectURL(await response.blob());
-      console.log(MusicGened);
+      if (response.ok) {
+        // 如果响应成功，设置 MusicGened 变量为音频 URL
+        MusicGened.value = URL.createObjectURL(await response.blob());
+        console.log(MusicGened);
+      } else {
+        console.error("Failed to fetch music");
+      }
     } else {
-      console.error("Failed to fetch music");
+      // 如果不是 localhost 的地址，则直接将 musicLocation 赋给 MusicGened
+      MusicGened.value = musicLocation;
+      console.log("Skipping fetch for non-local URL");
+      console.log(MusicGened);
     }
   } catch (error) {
     console.error("Error fetching music:", error);
@@ -90,7 +99,8 @@ const MusicGened = ref(""); // 响应式变量用于存储音频文件的URL
 
 
 //接下来是音频播放功能对应的代码
-const audioSrc = ref(`/root/Mozart-Diancai/Diancai-Backend/app/outputs/${music.value}`); // 替换为您的音频文件链接
+const audioSrc = ref(`${music.value}`); // 替换为您的音频文件链接
+console.log(music.value);
 const audioPlayer: Ref<HTMLAudioElement | null> = ref(null);
 const progressBar: Ref<HTMLInputElement | null> = ref(null);
 const currentProgress: Ref<number> = ref(0);
