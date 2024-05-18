@@ -17,4 +17,9 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
   ],
+  server: {
+    host: '0.0.0.0',
+    port: 5173,   // 更改成向外暴露端口
+    https: false,
+  }
 });
