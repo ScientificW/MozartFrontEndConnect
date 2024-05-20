@@ -21,7 +21,7 @@
       </div>
   
       <!-- 选择模式模块 -->
-      <div class="options">
+      <!-- <div class="options">
         <div class="select">
           <span class="ModeTips"><b>请选择模式</b></span>
           <el-select v-model="selectedMode" placeholder="请选择模式">
@@ -30,15 +30,14 @@
             </el-option>        
           </el-select>
         </div>
-      </div>
+      </div> -->
   
-      <!-- 选择时长模块 -->
+      <!-- 文本输入模块 演示 -->
       <div class="text">
-        <span class="tips"><b>请输入期望音频时长</b></span>
+        <span class="tips"><b>请简要描述您对生成音乐的期望*</b></span>
         <div class="textbox">
-          <input type="text" v-model="textInput" placeholder="输入一个数字，单位为秒">
+          <el-input v-model="instruction" placeholder="输入您的描述"></el-input>
         </div>
-        
       </div>
   
       <!-- 提交模块 -->
@@ -68,34 +67,18 @@
   
   const store = useStore();
   const MediaList = ref<File[]>([]); // 声明一个 ref，初始化为空数组
-  const selectedMode = ref<Number>()
+  const selectedMode = ref('')
   const textInput = ref('');
+  const instruction = ref('');
   const emit = defineEmits(['update:modelValue'])
   //决定Loading动画是否展示
   const isLoading = ref(false);
   let ImgChosen = ref(false);
-  //提取封面url
+  // 提取封面 URL
   const getFileUrl = (file: File) => {
     return URL.createObjectURL(file);
   };
-  let ImgURL = ref("");
   
-  const modes: Array<{
-    value: Number,
-    mode: String
-  }>
-      = [{
-      value: 0,
-      mode: "测试用(请勿选择)"
-    },
-    {
-      value: 1,
-      mode: "MusicGen模型"
-    }]
-  // const modes = [
-  //   { value: 0, mode: '测试用' },
-  //   { value: 1, mode: 'MusicGen模型' }
-  // ];
   
   const handleFileChange = (event:Event) => {
     const target = event.target as HTMLInputElement;
@@ -105,41 +88,37 @@
       // 更新 MediaList 的值为选择的文件列表
       MediaList.value = Array.from(files);
       ImgChosen.value = true;
-      ImgURL.value = MediaList.value.length > 0 ? getFileUrl(MediaList.value[0]) : ''
-      console.log("视频已上传MediaList.value[0]:",MediaList.value.value[0]);
-      store.commit('setImage', ImgURL.value);
+      console.log("视频已上传:",MediaList.value.value[0]);
+      // ImgURL.value = MediaList.value.length > 0 ? getFileUrl(MediaList.value[0]) : ''
+      // store.commit('setImage', ImgURL.value);
     }
-    console.log("封面ImgURL.value:",ImgURL.value)
+    // console.log("封面ImgURL.value:",ImgURL.value)
   };
   
   
   
   const handleClick = async () => {
     // 一个判断，表格需要填完整才能上传，否则弹窗提醒
-    if (selectedMode.value === null || textInput.value === '' || MediaList.value.length === 0) {
+    if (selectedMode.value === null) {
       window.alert('请完整填写需求');
-      console.log(selectedMode.value);
-      console.log(textInput.value);
-      console.log(MediaList.value);
-    return;
+      return;
     }
     
     isLoading.value = true;
     //临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用
-    emit('update:modelValue', true)
+    // emit('update:modelValue', true)
   
   // 将表单数据整合进formData
     const formData = new FormData();
     formData.append('file', MediaList.value[0]);
-    formData.append('mode', selectedMode.value);
-    formData.append('time', textInput.value);
+    formData.append('instruction', instruction.value);
   // 进行通信
     try {
       for (const pair of formData.entries()) {
             console.log(pair[0], pair[1]);  
           }
           // 下面是服务器地址和API接口
-      const response = await fetch('http://localhost:3000/upload', {
+      const response = await fetch('http://localhost:3001/video', {
         method: 'POST',
         mode: 'cors',
         body: formData,
@@ -156,9 +135,9 @@
           console.log(responseData);
           const prompt = ref('');
           const music = ref('');
-          
-          prompt.value = responseData.prompt;
-          music.value = responseData.result_file;
+          prompt.value = responseData.converted_prompt;
+          music.value = responseData.result_file_name;
+          console.log(responseData.result_file_name);
   
           // 在这里可以根据需要进行其他操作
           
@@ -168,7 +147,7 @@
         store.commit('setMusic', music.value);
         // 把Exhibition中isSubmitted改成true,实现正常返回后组件变换为Music
         //临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用
-        // emit('update:modelValue', true) 
+        emit('update:modelValue', true);
       }
      
       } catch (error) {
@@ -183,7 +162,6 @@
   
       onUnmounted(()=>{
         isLoading.value = false;
-        // emitter.off('getImage')
       })
   };
   </script>
@@ -241,6 +219,8 @@
       padding: 8px 16px;
       font-size: 16px;
       border-radius: 5px;
+      cursor: pointer;
+      display: block;
     }
     .ModeTips {
       margin-bottom: 4px;

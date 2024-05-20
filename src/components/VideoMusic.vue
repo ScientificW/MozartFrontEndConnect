@@ -1,15 +1,16 @@
 <template>
-    <div class="in-page-title" style="text-align: center; width: 85%">
+    <!-- <div class="in-page-title" style="text-align: center; width: 85%">
       <h1>生成结果</h1>
       <br/>
-    </div>
+    </div> -->
     <div class="content-box" style="display: flex">
       <div class = "ImgDisplay">
-        <!-- 占着位先 -->
         <!-- <img :src="ImageReceived" alt="音频封面"  class = "showImg"> -->
         <br/>
       </div>
-      <div style="flex: 6">
+      <div style="flex: 6"> 
+        <h1>生成结果</h1>
+      <br/>
         <p class="show-word">
         <b style="font-size: 1.5em">文字描述：</b><br/>
         {{ prompt }}
@@ -74,7 +75,7 @@
       const response = await fetch(musicLocation);
   
       if (response.ok) {
-        // 如果响应成功，设置MusicGened变量为音频URL
+        // 如果响应成功，设置 MusicGened 变量为音频 URL
         MusicGened.value = URL.createObjectURL(await response.blob());
         console.log(MusicGened);
       } else {

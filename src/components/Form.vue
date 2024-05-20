@@ -32,7 +32,7 @@
         <div class="text">
           <span class="tips"><b>请简要描述您对生成音乐的期望*</b></span>
           <div class="textbox">
-            <input type="text" v-model="instruction" placeholder="输入您的描述">
+            <el-input v-model="instruction" placeholder="输入您的描述"></el-input>
           </div>
         </div>
 
@@ -40,7 +40,7 @@
         <div class="text">
           <span class="tips"><b>请输入音频时长（默认 20 秒）*</b></span>
           <div class="textbox">
-            <input type="text" v-model="textInput" placeholder="输入一个数字，单位为秒">
+            <el-input v-model="textInput" placeholder="输入一个数字，单位为秒"></el-input>
           </div>
         </div>
 
