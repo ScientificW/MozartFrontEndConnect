@@ -167,7 +167,7 @@ const handleClick = async () => {
   formData.append('file', fileList.value[0]);
   formData.append('mode', selectedMode.value);
   formData.append('music_duration', textInput.value === '' ? '20' : textInput.value);
-  formData.append('instruction', instruction.value);
+  formData.append('instruction', instruction.value === '' ? ' ' : textInput.value);
   
   console.log(selectedMode.value);
   console.log(textInput.value);

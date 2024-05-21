@@ -111,7 +111,7 @@
   // 将表单数据整合进formData
     const formData = new FormData();
     formData.append('file', MediaList.value[0]);
-    formData.append('instruction', instruction.value);
+    formData.append('instruction', instruction.value === '' ? ' ' : textInput.value);
   // 进行通信
     try {
       for (const pair of formData.entries()) {

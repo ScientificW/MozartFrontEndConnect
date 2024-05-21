@@ -69,8 +69,10 @@
   (async () => {
     try {
       // 假设你有一个变量 music 包含音频文件名
-      const musicLocation = `http://localhost:3000/music/${music}`;
-  
+      let musicLocation = `${music}`;
+
+    // 判断 musicLocation 的网址前缀是否是 http://localhost
+    if (musicLocation.startsWith("http://localhost")) {
       // 发起 fetch 请求
       const response = await fetch(musicLocation);
   
@@ -81,6 +83,7 @@
       } else {
         console.error("Failed to fetch music");
       }
+    }
     } catch (error) {
       console.error("Error fetching music:", error);
     }
