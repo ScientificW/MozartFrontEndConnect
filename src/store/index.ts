@@ -25,5 +25,8 @@ export default createStore({
     setImage(state, value) {
       state.ImgURL = value;
     },
+    setVideo(state,value) {
+      state.video = value;
+    }
   },
 });
