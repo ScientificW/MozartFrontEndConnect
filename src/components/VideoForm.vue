@@ -4,7 +4,7 @@
     <!-- 上传图片模块 -->
     <div class="upload-img">
       <span class="tips"><b>请选择视频</b></span>
-      <input class="imgInput" type="file" id="file" multiple @change="handleFileChange">
+      <input class="videoInput" type="file" id="file" multiple @change="handleFileChange">
       <!-- 视频预览 -->
       <!-- 这段先空着，希望将来提取出视频封面放在这里 -->
       <!-- <div v-if="ImgChosen">
@@ -214,7 +214,7 @@ const handleClick = async () => {
     width: 100%;
     text-align: start;
   }
-  .imgInput{
+  .videoInput{
     color: rgb(22, 22, 35);
     padding: 8px 16px;
     font-size: 16px;
