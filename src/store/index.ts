@@ -7,6 +7,9 @@ interface AppState {
   ImgURL: string;
 }
 
+
+
+
 export default createStore({
   state: {
     prompt: '',
