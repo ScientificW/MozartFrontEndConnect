@@ -11,6 +11,9 @@ dependencies:
   '@element-plus/icons-vue':
     specifier: ^2.1.0
     version: 2.1.0(vue@3.3.4)
+  '@videojs-player/vue':
+    specifier: ^1.0.0
+    version: 1.0.0(@types/video.js@7.3.58)(video.js@8.10.0)(vue@3.3.4)
   animate.css:
     specifier: ^4.1.1
     version: 4.1.1
@@ -390,8 +393,24 @@ packages:
     resolution: {integrity: sha512-BMVOiWs0uNxHVlHBgzTIqJYmj+PgCo4euloGF+5m4okL3rEYzM2EEv78mw8zWSMM57dM7kVIgJ2QDvwHSoCI5g==}
     dev: false
 
+  /@types/video.js@7.3.58:
+    resolution: {integrity: sha512-1CQjuSrgbv1/dhmcfQ83eVyYbvGyqhTvb2Opxr0QCV+iJ4J6/J+XWQ3Om59WiwCd1MN3rDUHasx5XRrpUtewYQ==}
+    dev: false
+
   /@types/web-bluetooth@0.0.16:
     resolution: {integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==}
+    dev: false
+
+  /@videojs-player/vue@1.0.0(@types/video.js@7.3.58)(video.js@8.10.0)(vue@3.3.4):
+    resolution: {integrity: sha512-WonTezRfKu3fYdQLt/ta+nuKH6gMZUv8l40Jke/j4Lae7IqeO/+lLAmBnh3ni88bwR+vkFXIlZ2Ci7VKInIYJg==}
+    peerDependencies:
+      '@types/video.js': 7.x
+      video.js: 7.x
+      vue: 3.x
+    dependencies:
+      '@types/video.js': 7.3.58
+      video.js: 8.10.0
+      vue: 3.3.4
     dev: false
 
   /@videojs/http-streaming@3.10.0(video.js@8.10.0):
