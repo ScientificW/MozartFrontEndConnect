@@ -1,8 +1,8 @@
 <template>
-    <div class="in-page-title" style="text-align: center; width: 85%">
+    <!-- <div class="in-page-title" style="text-align: center; width: 85%">
       <h1>生成结果</h1>
       <br/>
-    </div>
+    </div> -->
     <div class="content-box" style="display: flex">
       <div class = "VideoDisplay">
         <video-player
@@ -17,7 +17,9 @@
         />
         <br/>
       </div>
-      <div style="flex: 6">
+      <div style="flex: 6"> 
+        <h1>生成结果</h1>
+      <br/>
         <p class="show-word">
         <b style="font-size: 1.5em">文字描述：</b><br/>
         {{ prompt }}
@@ -96,18 +98,21 @@
   (async () => {
     try {
       // 假设你有一个变量 music 包含音频文件名
-      const musicLocation = `http://localhost:3000/music/${music}`;
-  
+      let musicLocation = `${music}`;
+
+    // 判断 musicLocation 的网址前缀是否是 http://localhost
+    if (musicLocation.startsWith("http://localhost")) {
       // 发起 fetch 请求
       const response = await fetch(musicLocation);
   
       if (response.ok) {
-        // 如果响应成功，设置MusicGened变量为音频URL
+        // 如果响应成功，设置 MusicGened 变量为音频 URL
         MusicGened.value = URL.createObjectURL(await response.blob());
         console.log(MusicGened);
       } else {
         console.error("Failed to fetch music");
       }
+    }
     } catch (error) {
       console.error("Error fetching music:", error);
     }
