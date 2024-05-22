@@ -7,7 +7,6 @@
       <div class = "VideoDisplay">
         <video-player
           :src="videoSrc"
-          :poster="Poster"
           :volume="0.6"
           :controls="true"
           width = "540px"
