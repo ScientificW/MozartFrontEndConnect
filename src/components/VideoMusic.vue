@@ -1,8 +1,8 @@
 <template>
-    <!-- <div class="in-page-title" style="text-align: center; width: 85%">
+    <div class="in-page-title" style="text-align: center; width: 85%">
       <h1>生成结果</h1>
       <br/>
-    </div> -->
+    </div>
     <div class="content-box" style="display: flex">
       <div class = "VideoDisplay">
         <video-player
@@ -17,8 +17,8 @@
         <br/>
       </div>
       <div style="flex: 6"> 
-        <h1>生成结果</h1>
-      <br/>
+        <!-- <h1>生成结果</h1>
+      <br/> -->
         <p class="show-word">
         <b style="font-size: 1.5em">文字描述：</b><br/>
         {{ prompt }}
@@ -55,17 +55,16 @@
   
   <script lang="ts" setup>
     // 视频链接地址
-    const videoSrc = ref('/public/TestVideo.mp4');
+    const videoSrc = ref('');
+    // const videoSrc = ref('/public/TestVideo.mp4');
     //视频封面
     // const Poster = ref('/public/VideoTestCover.jpg')
     // 视频播放器配置
     let playerOptions = ref({
       playbackRates: [0.7, 1.0, 1.5, 2.0], // 播放速度
       autoplay: 'any', // 如果true,浏览器准备好时开始回放。
-
       preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
       language: 'zh-CN',
-
       muted: false, 
       notSupportedMessage: '此视频暂无法播放，请稍后再试', // 允许覆盖Video.js无法播放媒体源时显示的默认信息。
       controls: true,
@@ -107,6 +106,8 @@
       if (response.ok) {
         // 如果响应成功，设置 MusicGened 变量为音频 URL
         MusicGened.value = URL.createObjectURL(await response.blob());
+        //请补全视频URL
+        // videoSrc.value = ;
         console.log(MusicGened);
       } else {
         console.error("Failed to fetch music");
