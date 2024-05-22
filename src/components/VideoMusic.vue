@@ -4,8 +4,16 @@
       <br/>
     </div> -->
     <div class="content-box" style="display: flex">
-      <div class = "ImgDisplay">
-        <!-- <img :src="ImageReceived" alt="音频封面"  class = "showImg"> -->
+      <div class = "VideoDisplay">
+        <video-player
+          :src="videoSrc"
+          :volume="0.6"
+          :controls="true"
+          width = "540px"
+          height = "300px"
+          fluid: true
+          :options="playerOptions"
+        />
         <br/>
       </div>
       <div style="flex: 6"> 
@@ -21,7 +29,7 @@
   
       <!-- 这是音乐播放和下载 -->
       <p class="show-word">
-        <b style="font-size: 1.5em">生成音频：</b>
+        <b style="font-size: 1.5em">仅音频：</b>
         <div>
           <!-- 播放 -->
           <audio ref="audioPlayer" :src="MusicGened" @timeupdate="updateProgress"></audio>
@@ -46,9 +54,29 @@
   
   
   <script lang="ts" setup>
-  
-  //音频测试
-  // import testWav from '/test.wav'
+    // 视频链接地址
+    const videoSrc = ref('/public/TestVideo.mp4');
+    //视频封面
+    // const Poster = ref('/public/VideoTestCover.jpg')
+    // 视频播放器配置
+    let playerOptions = ref({
+      playbackRates: [0.7, 1.0, 1.5, 2.0], // 播放速度
+      autoplay: 'any', // 如果true,浏览器准备好时开始回放。
+
+      preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+      language: 'zh-CN',
+
+      muted: false, 
+      notSupportedMessage: '此视频暂无法播放，请稍后再试', // 允许覆盖Video.js无法播放媒体源时显示的默认信息。
+      controls: true,
+      controlBar: {
+        timeDivider: true,
+        durationDisplay: true,
+        remainingTimeDisplay: false,
+        fullscreenToggle: true // 全屏按钮
+      }
+    })
+
   
   import { CloseBold } from '@element-plus/icons-vue';
   import {Ref, ref,onMounted,onUnmounted} from 'vue';
@@ -154,16 +182,21 @@
     display: flex;
     justify-content: center;
   }
-  .ImgDisplay{
-    flex: 4;
-    padding-top: 50px;
-    display: flex;
+  .VideoDisplay{
+    margin-right: 60px;
+    margin-bottom: 30px;
+    max-height: 400px;
+    max-width: 650px;
+    /* display: flex; */
     align-items: flex-start;
     /* align-items: center; */
     justify-content: center;
+
     /* 测试用 */
     /* background-color: rgb(72, 50, 23); */
+    /* overflow: hidden;  */
   }
+
   .showImg{
     max-height: 350px;
     max-width: 350px;

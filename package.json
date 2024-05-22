@@ -12,6 +12,7 @@
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
     "@element-plus/icons-vue": "^2.1.0",
+    "@videojs-player/vue": "^1.0.0",
     "animate.css": "^4.1.1",
     "axios": "^1.4.0",
     "element-plus": "^2.3.9",
