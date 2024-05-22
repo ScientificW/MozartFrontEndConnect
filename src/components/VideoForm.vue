@@ -64,6 +64,7 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 //Loading动画的css样式
 import 'animate.css';
 import {ref, onUnmounted} from 'vue';
+import videojs from 'video.js';
 
 const store = useStore();
 const MediaList = ref<File[]>([]); // 声明一个 ref，初始化为空数组
@@ -135,8 +136,10 @@ const handleClick = async () => {
         console.log(responseData);
         const prompt = ref('');
         const music = ref('');
+        const video = ref('');
         prompt.value = responseData.converted_prompt;
-        music.value = responseData.result_file_name;
+        // music.value = responseData.result_file_name;
+        video.value = responseData.result_file_name;
         console.log(responseData.result_file_name);
 
         // 在这里可以根据需要进行其他操作
@@ -145,8 +148,9 @@ const handleClick = async () => {
       // 把数据扔进vuex
       store.commit('setPrompt', prompt.value);
       store.commit('setMusic', music.value);
+      store.commit('setVideo',video.value);
       // 把Exhibition中isSubmitted改成true,实现正常返回后组件变换为Music
-      //临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用
+      //下面这个开开是向服务器发请求的逻辑，临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用
       emit('update:modelValue', true);
     }
    

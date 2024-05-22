@@ -29,17 +29,17 @@
   
       <!-- 这是音乐播放和下载 -->
       <p class="show-word">
-        <b style="font-size: 1.5em">仅音频：</b>
-        <div>
+        <b style="font-size: 1.5em">点击链接下载视频：</b>
+        <!-- <div> -->
           <!-- 播放 -->
-          <audio ref="audioPlayer" :src="MusicGened" @timeupdate="updateProgress"></audio>
+          <!-- <audio ref="audioPlayer" :src="MusicGened" @timeupdate="updateProgress"></audio>
           <input type="range" ref="progressBar" class="progress-bar" min="0" :max="audioDuration" v-model="currentProgress" @input="seekTo">
           <button class="Buttons" @click="playAudio">播放</button>
           <button  class="Buttons" @click="pauseAudio">暂停</button>
-        </div>
+        </div> -->
         <!-- 下载 -->
-        <a :href="MusicGened" :download="`${music}`" class="download-link">
-          下载音频
+        <a :href="videoSrc" :download="`${video}`" class="download-link">
+          下载视频
         </a>
       </p>
       </div>
@@ -88,6 +88,7 @@
   const store = useStore();
   const prompt = store.state.prompt;
   const music = store.state.music;
+  const video = store.state.video;
   const ImageReceived = store.state.ImgURL;
   console.log('Prompt1:', prompt);
   console.log('Music1:', music);
@@ -96,26 +97,44 @@
   (async () => {
     try {
       // 假设你有一个变量 music 包含音频文件名
-      let musicLocation = `${music}`;
+      // let musicLocation = `${music}`;
+      let videoLocation = `${video}`;
 
-    // 判断 musicLocation 的网址前缀是否是 http://localhost
-    if (musicLocation.startsWith("http://localhost")) {
-      // 发起 fetch 请求
-      const response = await fetch(musicLocation);
-  
-      if (response.ok) {
-        // 如果响应成功，设置 MusicGened 变量为音频 URL
-        MusicGened.value = URL.createObjectURL(await response.blob());
-        //请补全视频URL
-        // videoSrc.value = ;
-        console.log(MusicGened);
-      } else {
-        console.error("Failed to fetch music");
+      // 处理音乐文件
+      // if (musicLocation.startsWith("http://localhost")) {
+      //   const response = await fetch(musicLocation);
+
+      //   if (response.ok) {
+      //     MusicGened.value = URL.createObjectURL(await response.blob());
+      //     console.log(MusicGened);
+      //   } else {
+      //     console.error("Failed to fetch music");
+      //   }
+      // }
+
+      // 处理视频文件
+      if (videoLocation.startsWith("http://localhost")) {
+        const response = await fetch(videoLocation);
+
+        if (response.ok) {
+          videoSrc.value = URL.createObjectURL(await response.blob());
+          console.log(videoSrc);
+        } else {
+          console.error("Failed to fetch video");
+        }
       }
-    }
     } catch (error) {
       console.error("Error fetching music:", error);
     }
+    
+
+
+
+
+
+
+
+    
   })();
   
   
