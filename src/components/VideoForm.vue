@@ -46,7 +46,7 @@
       <el-button  class="submit-btn" type="primary" @click="handleClick" :disabled="isLoading"> 
         <span v-if="!isLoading">提交</span>
         <span v-else>处理中…</span> 
-        <img v-if="isLoading" class = 'loading' src="/Loading.svg"/>
+        <img v-if="isLoading" class='loading' src="/Loading.svg"/>
         <span v-if="isLoading"> 。 </span>  
         <el-icon v-if="!isLoading">
           <Upload/>
@@ -89,7 +89,7 @@ const handleFileChange = (event:Event) => {
     // 更新 MediaList 的值为选择的文件列表
     MediaList.value = Array.from(files);
     ImgChosen.value = true;
-    console.log("视频已上传:",MediaList.value.value[0]);
+    console.log("视频已上传:",MediaList.value[0]);
     // ImgURL.value = MediaList.value.length > 0 ? getFileUrl(MediaList.value[0]) : ''
     // store.commit('setImage', ImgURL.value);
   }
@@ -112,14 +112,14 @@ const handleClick = async () => {
 // 将表单数据整合进formData
   const formData = new FormData();
   formData.append('file', MediaList.value[0]);
-  formData.append('instruction', instruction.value === '' ? ' ' : textInput.value);
+  formData.append('instruction', instruction.value === '' ? ' ' : instruction.value);
 // 进行通信
   try {
     for (const pair of formData.entries()) {
           console.log(pair[0], pair[1]);  
         }
         // 下面是服务器地址和API接口
-    const response = await fetch('http://localhost:3001/video', {
+    const response = await fetch('http://localhost:3001/uploadV', {
       method: 'POST',
       mode: 'cors',
       body: formData,

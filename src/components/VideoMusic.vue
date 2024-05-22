@@ -55,7 +55,7 @@
   
   <script lang="ts" setup>
     // 视频链接地址
-    const videoSrc = ref('');
+    // const videoSrc = ref('');
     // const videoSrc = ref('/public/TestVideo.mp4');
     //视频封面
     // const Poster = ref('/public/VideoTestCover.jpg')
@@ -91,57 +91,12 @@
   const video = store.state.video;
   const ImageReceived = store.state.ImgURL;
   console.log('Prompt1:', prompt);
-  console.log('Music1:', music);
+  console.log('Video:', video);
   const MusicGened = ref(""); // 响应式变量用于存储音频文件的URL
-  
-  (async () => {
-    try {
-      // 假设你有一个变量 music 包含音频文件名
-      // let musicLocation = `${music}`;
-      let videoLocation = `${video}`;
-
-      // 处理音乐文件
-      // if (musicLocation.startsWith("http://localhost")) {
-      //   const response = await fetch(musicLocation);
-
-      //   if (response.ok) {
-      //     MusicGened.value = URL.createObjectURL(await response.blob());
-      //     console.log(MusicGened);
-      //   } else {
-      //     console.error("Failed to fetch music");
-      //   }
-      // }
-
-      // 处理视频文件
-      if (videoLocation.startsWith("http://localhost")) {
-        const response = await fetch(videoLocation);
-
-        if (response.ok) {
-          videoSrc.value = URL.createObjectURL(await response.blob());
-          console.log(videoSrc);
-        } else {
-          console.error("Failed to fetch video");
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching music:", error);
-    }
-    
-
-
-
-
-
-
-
-    
-  })();
-  
-  
-  
+  const videoSrc = ref(`${video}`);
   
   //接下来是音频播放功能对应的代码
-  const audioSrc = ref(`/root/Mozart-Diancai/Diancai-Backend/app/outputs/${music.value}`); // 替换为您的音频文件链接
+  const audioSrc = ref(`${music.value}`); // 替换为您的音频文件链接
   const audioPlayer: Ref<HTMLAudioElement | null> = ref(null);
   const progressBar: Ref<HTMLInputElement | null> = ref(null);
   const currentProgress: Ref<number> = ref(0);
