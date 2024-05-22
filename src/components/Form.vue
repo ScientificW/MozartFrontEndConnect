@@ -167,7 +167,7 @@ const handleClick = async () => {
   formData.append('file', fileList.value[0]);
   formData.append('mode', selectedMode.value);
   formData.append('music_duration', textInput.value === '' ? '20' : textInput.value);
-  formData.append('instruction', instruction.value === '' ? ' ' : textInput.value);
+  formData.append('instruction', instruction.value === '' ? ' ' : instruction.value);
   
   console.log(selectedMode.value);
   console.log(textInput.value);
@@ -184,29 +184,30 @@ const handleClick = async () => {
     });
 
     if (!response.ok) {
-          window.alert("请求失败，请稍后再试")
-          throw new Error('Request failed due to unstable network connection');
-        }
-        // 获取返回的数据
-        const responseData = await response.json();
+      window.alert("请求失败，请稍后再试")
+      throw new Error('Request failed due to unstable network connection');
+    }
+    // 获取返回的数据
+    const responseData = await response.json();
 
-        // 处理服务器返回的数据
-        console.log(responseData);
-        const prompt = ref('');
-        const music = ref('');
-        const mode = ref('');
-        prompt.value = responseData.converted_prompt;
-        music.value = responseData.result_file_name;
-        mode.value = responseData.mode;
-        console.log(responseData.result_file_name);
+    // 处理服务器返回的数据
+    console.log(responseData);
+    const prompt = ref('');
+    const music = ref('');
+    const mode = ref('');
+    prompt.value = responseData.converted_prompt;
+    music.value = responseData.result_file_name;
+    mode.value = responseData.model_name;
+    console.log(responseData.result_file_name);
 
-        // 在这里可以根据需要进行其他操作
+      // 在这里可以根据需要进行其他操作
         
     if (response.ok) {
       // 把数据扔进vuex
       store.commit('setPrompt', prompt.value);
       store.commit('setMusic', music.value);
       store.commit('setMode', mode.value);
+      console.log(mode.value);
       // 把Exhibition中isSubmitted改成true,实现正常返回后组件变换为Music
       //临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用临时测试用
       emit('update:modelValue', true); 

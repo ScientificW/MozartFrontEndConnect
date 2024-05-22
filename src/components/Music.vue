@@ -65,6 +65,7 @@ const music = store.state.music;
 const ImageReceived = store.state.ImgURL;
 console.log('Prompt1:', prompt);
 console.log('Music1:', music);
+console.log('mode:', mode);
 const MusicGened = ref(""); // 响应式变量用于存储音频文件的URL
 
 (async () => {
