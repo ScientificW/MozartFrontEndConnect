@@ -7,9 +7,9 @@
         <div v-if="ImgChosen">
           <img :src="ImgURL" alt=""  class = "showImg">
         </div>
-        <input class="imgInput" type="file" image="./DragToUpload.png" id="file" multiple @change="handleFileChange">
+        <input class="imgInput" type="file" image="/DragToUpload.png" id="file" multiple @change="handleFileChange">
         <div v-if="!ImgChosen">
-          <img src="public\DragToUpload.png" alt="" style="height: 200px; width: 200px">
+          <img src="/DragToUpload.png" alt="" style="height: 200px; width: 200px">
         </div>
       </div>
 
@@ -67,6 +67,7 @@
 
 <script lang="ts" setup>
 import {Upload, UploadFilled, Watch} from '@element-plus/icons-vue';
+import dragToUpload from '../public/DragToUpload.png';
 import { useStore } from 'vuex';
 import { ElMessage, ElMessageBox } from 'element-plus';
 //Loading动画的css样式
@@ -117,6 +118,7 @@ const modes: Array<{
   const handleDrop = (event:Event) => {
     event.preventDefault();
     console.log("drop image")
+    // @ts-ignore
     const files = event.dataTransfer.files;
     if (files) {
       // 更新 fileList 的值为选择的文件列表

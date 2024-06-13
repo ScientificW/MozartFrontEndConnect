@@ -88,6 +88,7 @@ const handleFileChange = (event:Event) => {
     // 更新 MediaList 的值为选择的文件列表
     MediaList.value = Array.from(files);
     ImgChosen.value = true;
+    // @ts-ignore
     console.log("视频已上传:",MediaList.value.value[0]);
     // ImgURL.value = MediaList.value.length > 0 ? getFileUrl(MediaList.value[0]) : ''
     // store.commit('setImage', ImgURL.value);
