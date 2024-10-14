@@ -102,11 +102,11 @@ const modes: Array<{
   },
   {
     value: '1',
-    mode: "MusicGen模型"
+    mode: "Suno.ai 模型"
   },
   {
     value: '2',
-    mode: "Suno.ai模型"
+    mode: "MusicGen 模型"
   }
 ]
 
@@ -196,9 +196,9 @@ const handleClick = async () => {
     const music = ref('');
     const mode = ref('');
     prompt.value = responseData.converted_prompt;
-    music.value = responseData.result_file_name;
+    music.value = responseData.result_file_url;
     mode.value = responseData.model_name;
-    console.log(responseData.result_file_name);
+    console.log(responseData.result_file_url);
 
       // 在这里可以根据需要进行其他操作
         
